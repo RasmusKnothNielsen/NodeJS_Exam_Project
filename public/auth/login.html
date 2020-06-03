@@ -1,0 +1,26 @@
+<h2 class="container text-center">Please provide your credentials in the form below</h2>
+
+<form action="/login" method="post">
+  
+  <div class="form-row align-items-center">
+    <div class="col-md-2">
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" required> <br> <br>
+  
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required> <br> <br>
+  
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+      <br>
+      <span class="psw"><a href="/resetpassword">Forgot password?</a></span>
+      <br>
+    </div>
+  </div>
+  
+    <div class="container text-center" id="submit-bar">
+      <button type="submit">Login</button>
+      <button type="button" class="cancelbtn">Cancel</button>
+    </div>
+</form> 
