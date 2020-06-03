@@ -110,3 +110,5 @@ dist/
 # Temporary folders
 tmp/
 temp/
+config/mailCredentials.js
+config/mysqlCredentials.js
