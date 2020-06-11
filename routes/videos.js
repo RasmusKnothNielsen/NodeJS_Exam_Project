@@ -51,17 +51,6 @@ const knexConfig = require('../knexfile');
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 
-/*
-let videos;
-Video.query().then(vids => {
-	videos = vids;
-})
-*/
-
-//let videos = Video.query().eager('[tags.tag, comments.[username, comment]]')
-//let videos = Video.query().eager()
-//console.log(videos)
-
 const videosPerPage = 10;
 
 // Return all the videos as a list
@@ -75,6 +64,8 @@ router.get('/videos', (req, res) => {
 
 	// return res.send({ response: videos.slice(start, end) });
 	//return res.send({ response: videos });
+
+	// Query the video objects and fill them with the relevant tags and comments
 	Video.query().eager('[tags, comments]').then(videos => {
         return res.send({response: videos});
     })
@@ -92,6 +83,7 @@ router.get('/videos/:videoId', async (req, res) => {
 			console.log("ID:", video['id'])
 		})
 	await Video.query().patchAndFetchById(video['id'], { views: video['views']})
+		.eager('[tags, comments]')
 		.then(video => {
 			console.log(video)
 			return res.send({response: video})

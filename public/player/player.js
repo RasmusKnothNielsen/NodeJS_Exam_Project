@@ -9,7 +9,7 @@ const fullUrl = window.location.href;
 const videoId = fullUrl.substr(fullUrl.lastIndexOf('/') + 1);
 
 // Console log the pathvariable
-console.log(`${videoId}`);
+console.log(`Video ID ${videoId}`);
 
 // Call the backend and retrieve the json about this specific video
 $.get(`/videos/${videoId}`)
@@ -31,11 +31,11 @@ $.get(`/videos/${videoId}`)
 
 		//TODO IMPLEMENT TAGS AGAIN
 		// Add tags to the page
-		//const arrayOfTags = response.response.tags;
-		//console.log(arrayOfTags)
-		//arrayOfTags.forEach(tag => {
-		//	$('.tags').append(tag + ' ');
-		//});
+		const arrayOfTags = response.response.tags;
+		console.log("Here: " + arrayOfTags)
+		arrayOfTags.forEach(tag => {
+			$('.tags').append(tag.tag + ' ');
+		});
 
 		// Add views to the page
 		$('.views').append(`${response.response.views}`);
@@ -46,7 +46,7 @@ $.get(`/videos/${videoId}`)
 		// Add comments
 		const comments = response.response.comments;
 		comments.forEach(comment => {
-			$('.comments').append(comment.time + '<br>' + '-  ' + comment.comment + '<br><br>');
+			$('.comments').append(comment.username + " - " + comment.createdAt + '<br>' + '-  ' + comment.comment + '<br><br>');
 		});
 	})
 	.catch((error) => {
