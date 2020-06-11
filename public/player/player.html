@@ -19,18 +19,6 @@
         // A way to enable debugging in the client
         //debugger;
 
-        // Connection for the socket
-        const socket = io.connect("localhost:8686");
-
-        function onThoughtsSubmitted() {
-            const thoughts = $('#thoughts').val();
-            $('#thoughts').val("");
-            socket.emit("I'm thinking about this", { thoughts });
-        }
-
-        socket.on("Someone said", data => {
-            $('#messages').prepend(`<div>${data.thoughts}</div>`)
-        })
     </script>
 
 <form action="/comment" method="POST">

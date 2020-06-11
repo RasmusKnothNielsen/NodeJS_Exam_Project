@@ -35,33 +35,74 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+/*
 // Video schema
 const rawData = fs.readFileSync('./data.json', 'utf-8');
 let videos = JSON.parse(rawData);
 console.log(videos);
+*/
 
+// TRYING OUT OBJECTION
+const Video = require('../models/Video');
+const Knex = require('knex');
+const { Model } = require('objection');
+const knexConfig = require('../knexfile');
+const knex = Knex(knexConfig.development);
+Model.knex(knex);
+
+/*
+let videos;
+Video.query().then(vids => {
+	videos = vids;
+})
+*/
+
+//let videos = Video.query().eager('[tags.tag, comments.[username, comment]]')
+//let videos = Video.query().eager()
+//console.log(videos)
 
 const videosPerPage = 10;
 
 // Return all the videos as a list
 router.get('/videos', (req, res) => {
+	/*
 	const page = Number(req.query.page) ? Number(req.query.page) : 1;
 	const start = (page - 1) * videosPerPage;
 	const end = start + videosPerPage;
 	// Number of videos per page and current page number?
+	*/
 
 	// return res.send({ response: videos.slice(start, end) });
-	return res.send({ response: videos });
+	//return res.send({ response: videos });
+	Video.query().eager('[tags, comments]').then(videos => {
+        return res.send({response: videos});
+    })
 });
 
 // Return the specific video
-router.get('/videos/:videoId', (req, res) => {
-	let video = videos.find(video => video.fileName === req.params.videoId);
-	video['views'] += 1;
+router.get('/videos/:videoId', async (req, res) => {
+	let video
+	await Video.query()
+		.then(videos => {
+			video = videos.find(video => video.filename === req.params.videoId);
+			console.log(video)
+			video['views'] += 1;
+			console.log("Views:", video['views'])
+			console.log("ID:", video['id'])
+		})
+	await Video.query().patchAndFetchById(video['id'], { views: video['views']})
+		.then(video => {
+			console.log(video)
+			return res.send({response: video})
+		})
+	//let video = videos.find(video => video.fileName === req.params.videoId);
+	//video['views'] += 1;
 	// Save the new view to "database"
-	fs.writeFileSync('./data.json', JSON.stringify(videos), 'utf-8');
-
-	return res.send({ response: videos.find(video => video.fileName === req.params.videoId) });
+	//fs.writeFileSync('./data.json', JSON.stringify(videos), 'utf-8');
+	//return res.send({response: 'ok'})
+	//return res.send({ response: video.find(video => video.filename === req.params.videoId) })
+	//return res.send({ response: videos.find(video => video.fileName === req.params.videoId) });
 });
 
 // Create video

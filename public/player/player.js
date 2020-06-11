@@ -14,7 +14,7 @@ console.log(`${videoId}`);
 // Call the backend and retrieve the json about this specific video
 $.get(`/videos/${videoId}`)
 	.done((response) => {
-		console.log(response.response);
+		console.log(response);
 		$('.title').text(response.response.title);
 
 		// Add the video to the player
@@ -27,13 +27,15 @@ $.get(`/videos/${videoId}`)
 
 		$('.description').text(response.response.description);
 
-		$('.added').text('Added: ' + response.response.uploadDate.substring(0, 10));
+		$('.added').text('Added: ' + response.response.createdAt.substring(0, 10));
 
+		//TODO IMPLEMENT TAGS AGAIN
 		// Add tags to the page
-		const arrayOfTags = response.response.tags;
-		arrayOfTags.forEach(tag => {
-			$('.tags').append(tag + ' ');
-		});
+		//const arrayOfTags = response.response.tags;
+		//console.log(arrayOfTags)
+		//arrayOfTags.forEach(tag => {
+		//	$('.tags').append(tag + ' ');
+		//});
 
 		// Add views to the page
 		$('.views').append(`${response.response.views}`);

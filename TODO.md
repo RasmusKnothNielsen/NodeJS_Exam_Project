@@ -14,10 +14,10 @@
 - Add Seeds for videos, tags and comments   (DONE)
 
 - Change where the video info comes from, from json object to database
-    - Reading videos from Database
+    - Reading videos from Database  (DONE)
     - Saving videos to database
     - Reading comments
-    - Saving tags
+    - Saving comments
     - Reading tags
     - Saving tags
 
