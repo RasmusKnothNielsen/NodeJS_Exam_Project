@@ -42,6 +42,7 @@ $.get(`/videos/${videoId}`)
 
 		// Add videoId to add comment field
 		document.getElementById('hiddenvideoId').value = `${videoId}`;
+		console.log("VideoID for Comment:", videoId)
 
 		// Add comments
 		const comments = response.response.comments;

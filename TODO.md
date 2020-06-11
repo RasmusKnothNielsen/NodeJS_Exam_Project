@@ -15,11 +15,15 @@
 
 - Change where the video info comes from, from json object to database
     - Reading videos from Database  (DONE)
-    - Saving videos to database
-    - Reading comments
-    - Saving comments
-    - Reading tags
-    - Saving tags
+    - Saving videos to database     (DONE)
+    - Reading comments              (DONE)
+    - Saving comments               (DONE)
+    - Implement that only logged in people can comment, and update their name from NoName to username in /comment route
+    - Reading tags                  (DONE)
+    - Saving tags                   (DONE)
+
+Change the name of the thumbnails to not just include the .png
+
 
 - Add login page                        (DONE)
 - Connect login page to rest of design
@@ -27,6 +31,17 @@
 - Connect signup page to rest of design
 - Add resetpassword page                (DONE)
 - connect resetpassword page with rest of design
+
+
+AWS
+
+Install
+- Git
+- NodeJS
+- Express?
+- Nodemon
+- ffmpeg
+- Mysql database
 
 Double Check HARD REQUIREMENTS:  
 Backend  

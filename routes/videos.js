@@ -8,7 +8,9 @@ const fs = require('fs');
 const path = require('path');
 
 // Used for creating tags from thumbnails
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 const tf = require('@tensorflow/tfjs-node');
 const mobilenet = require('@tensorflow-models/mobilenet');
 require('@tensorflow/tfjs-node');
@@ -45,6 +47,8 @@ console.log(videos);
 
 // TRYING OUT OBJECTION
 const Video = require('../models/Video');
+const Comment = require('../models/Comment');
+const Tag = require('../models/Tag');
 const Knex = require('knex');
 const { Model } = require('objection');
 const knexConfig = require('../knexfile');
@@ -77,24 +81,13 @@ router.get('/videos/:videoId', async (req, res) => {
 	await Video.query()
 		.then(videos => {
 			video = videos.find(video => video.filename === req.params.videoId);
-			console.log(video)
 			video['views'] += 1;
-			console.log("Views:", video['views'])
-			console.log("ID:", video['id'])
 		})
 	await Video.query().patchAndFetchById(video['id'], { views: video['views']})
 		.eager('[tags, comments]')
 		.then(video => {
-			console.log(video)
 			return res.send({response: video})
 		})
-	//let video = videos.find(video => video.fileName === req.params.videoId);
-	//video['views'] += 1;
-	// Save the new view to "database"
-	//fs.writeFileSync('./data.json', JSON.stringify(videos), 'utf-8');
-	//return res.send({response: 'ok'})
-	//return res.send({ response: video.find(video => video.filename === req.params.videoId) })
-	//return res.send({ response: videos.find(video => video.fileName === req.params.videoId) });
 });
 
 // Create video
@@ -107,9 +100,11 @@ router.post('/videos', upload.single('video'), (req, res) => {
 	const category = req.body.category;
 	// Split the tags with whitespace or commas
 	const tags = req.body.tags.split(/\s*[,\s]\s*/);
+	
+	// SHOULD NOT BE NECESSARY, since we do it db side
 	// Get current date
-	const d = new Date();
-	const currentDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
+	//const d = new Date();
+	//const currentDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
 
 	// Server side validation
 	const errors = validateUserUpload(title, description, category);
@@ -120,20 +115,41 @@ router.post('/videos', upload.single('video'), (req, res) => {
 		let generated_tags = [];
 		const middleOfFilm = req.file.size / 100 / 60 / 60;
 		console.log(req.file);
+		
 		// Create thumbnail
-		ffmpeg(req.file.path).screenshots({
-			timestamps: [middleOfFilm],
+		console.log("Starting to make thumbnail")
+		console.log("Dir:", __dirname + '/thumbnails')
+
+		ffmpeg(req.file.path)
+		.screenshots({
+			timestamps: ['50%'],
 			filename: fileName + '.png',
-			folder: path.join(__dirname + '/../' + 'public/images/thumbnails'),
-			size: '640x480',
-			autopad: 'black',
-		}).on('end', function() {
-			console.log('done');
+			folder: path.join(process.cwd() + '/public/images/thumbnails'),
+			size: '640x480'
+		}).on('end', () => {
+			console.log('done with thumbnail');
 
 			// Create tags via Tensorflow mobilenet image recognition
 			const generated_tags = generateTags(fileName);
 		});
+		/*
+		ffmpeg(req.file.path).takeScreenshots({
+			timestamps: [middleOfFilm],
+			filename: fileName + '.png',
+			folder: path.join(__dirname + '/thumbnails/'),
+			size: '640x480',
+			autopad: 'black',
+		}).on('end', function() {
+			console.log('done with thumbnail');
 
+			// Create tags via Tensorflow mobilenet image recognition
+			const generated_tags = generateTags(fileName);
+		});
+		*/
+		
+		
+
+		/*
 		// Push the new video to the front of the videos array
 		videos.unshift({
 			title: title,
@@ -148,29 +164,44 @@ router.post('/videos', upload.single('video'), (req, res) => {
 		});
 
 		fs.writeFileSync('./data.json', JSON.stringify(videos), 'utf-8');
+		*/
+		
+		// Create video object
 
-		console.log(videos);
-		return res.redirect(`/player/${fileName}`);
+		// Insert into DB
+		Video.query().insert({
+			title: title,
+			description: description,
+			filename: fileName,
+			thumbnail: fileName + '.png',
+			category: category,
+			tags: generated_tags,
+			views: 0
+		}).then( video => {
+			return res.redirect(`/player/${video.filename}`);
+		})
+
+		//console.log(videos);
+		//return res.redirect(`/player/${fileName}`);
 	}
 
 });
 
 // Adding comments to videos
-router.post('/comment', (req, res) => {
+router.post('/comment', async (req, res) => {
+	let video;
+	await Video.query()
+		.then(videos => {
+			video = videos.find(video => video.filename === req.body.hiddenVideoId);
+			Comment.query().insert({
+				videoId: video.id,
+				username: 'NoName',
+				comment: req.body.addcomment
+			}).then(comment => {
 
-	let video = videos.find(video => video.fileName === req.body.hiddenVideoId);
-	const length = video['comments'].length;
-	video.comments.push(
-		{
-			id: length,
-			comment: req.body.addcomment,
-			time: new Date(),
-		});
-
-	// Save the new comment
-	fs.writeFileSync('./data.json', JSON.stringify(videos), 'utf-8');
-
-	return res.redirect(`/player/${req.body.hiddenVideoId}`);
+			})
+		})
+	res.redirect(`/player/${video.filename}`)
 });
 
 function validateUserUpload(title, description, category) {
@@ -202,7 +233,7 @@ function validateUserUpload(title, description, category) {
 async function generateTags(fileName) {
 	let results = [];
 	// Create tags via Tensorflow mobilenet image recognition
-	const pathToImg = path.join(__dirname + '/../' + 'public/images/thumbnails/' + fileName + '.png');
+	const pathToImg = path.join(process.cwd() + '/public/images/thumbnails/' + fileName + '.png');
 	const readImage = path => {
 		const imageBuffer = fs.readFileSync(path);
 		const tfimage = tf.node.decodeImage(imageBuffer);
@@ -213,11 +244,28 @@ async function generateTags(fileName) {
 		const mobilenetModel = await mobilenet.load();
 		const predictions = await mobilenetModel.classify(image);
 		console.log('Classification Results:', predictions);
+		/*
 		// Get the newly added video and add the generated tags to it
 		let video = videos.find(video => video.fileName === fileName);
 		predictions.forEach(prediction => {
 			video['tags'].push(prediction.className);
 		});
+		*/
+		// Get the id of the video
+		Video.query()
+		.then(videos => {
+			let video = videos.find(video => video.filename === fileName);
+			console.log("Found video:", video);
+			// Add the tags to the tags table with the povided videoID
+			predictions.forEach(prediction => {
+				Tag.query().insert({
+					videoId: video.id,
+					tag: prediction.className
+				}).then(tag => {
+					console.log("Prediction added:", prediction);
+				});
+			})
+		})
 	};
 	imageClassification(pathToImg);
 }
