@@ -24,6 +24,8 @@
 
 Change the name of the thumbnails to not just include the .png
 
+Try to implement AJAX on player site, so that we can add comments without reloading the page.
+
 
 - Add login page                        (DONE)
 - Connect login page to rest of design
@@ -45,9 +47,9 @@ Install
 
 Double Check HARD REQUIREMENTS:  
 Backend  
-- Express
-- Database
-- ORM / ODM
+- Express       (DONE)
+- Database      (DONE)
+- ORM / ODM     (DONE)
 
 Frontend  
 - Plain HTML
