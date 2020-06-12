@@ -5,12 +5,18 @@
 
 - Make sure that rate limiter is implemented    (DONE)
 
+- Change how comments are displayed under videos        
+    - Implement a way to display the proper user name   (DONE)
+    - Truncate the date                                 (DONE)
+    - Design: Alterate between two background colors
+
 - Add video info to Database instead of file    (DONE)
 - Implement Sweetalert pop ups
     - At upload video
     - At user signup
     - At user login
     - At user logout
+
 - Create tables in database (DONE)
     - Videos        (DONE)
     - Tags          (DONE)

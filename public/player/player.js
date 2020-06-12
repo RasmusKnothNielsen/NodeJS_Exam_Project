@@ -47,7 +47,8 @@ $.get(`/videos/${videoId}`)
 		// Add comments
 		const comments = response.response.comments;
 		comments.forEach(comment => {
-			$('.comments').append(comment.username + " - " + comment.createdAt + '<br>' + '-  ' + comment.comment + '<br><br>');
+			commentDate = comment.createdAt
+			$('.comments').append(comment.userName + " - " + commentDate.substring(0,10) + ' - ' + commentDate.substring(11,20) +'<br>' + '-  ' + comment.comment + '<br><br>');
 		});
 	})
 	.catch((error) => {

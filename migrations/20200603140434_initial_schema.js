@@ -50,6 +50,8 @@ exports.up = function(knex) {
           // Foreign key that references id in users
           table.integer('user_id').unsigned().notNullable();
           table.foreign('user_id').references('users.id')
+
+          table.string('user_name').notNullable();
           
           table.string('comment').notNullable();
           table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));

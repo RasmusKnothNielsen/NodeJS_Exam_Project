@@ -37,14 +37,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
-/*
-// Video schema
-const rawData = fs.readFileSync('./data.json', 'utf-8');
-let videos = JSON.parse(rawData);
-console.log(videos);
-*/
-
 // TRYING OUT OBJECTION
 const Video = require('../models/Video');
 const Comment = require('../models/Comment');
@@ -153,25 +145,30 @@ router.post('/videos', upload.single('video'), async (req, res) => {
 			}
 				}
 			});
-			//console.log("RESULT OF validateUser():", validatedUser)
-
 });
 
 // Adding comments to videos
 router.post('/comment', async (req, res) => {
 	let video;
-	await Video.query()
-		.then(videos => {
-			video = videos.find(video => video.filename === req.body.hiddenVideoId);
-			Comment.query().insert({
-				videoId: video.id,
-				username: 'NoName',
-				comment: req.body.addcomment
-			}).then(comment => {
-
-			})
-		})
-	res.redirect(`/player/${video.filename}`)
+	const validatedUser = await validateUser(req).then( message => {
+		if (message == false) {
+			return res.send({response: 'Only logged in users can add comments'})
+		}
+		else {
+			Video.query()
+				.then(videos => {
+					video = videos.find(video => video.filename === req.body.hiddenVideoId);
+					Comment.query().insert({
+						videoId: video.id,
+						userId: req.session.userid,
+						userName: req.session.username,
+						comment: req.body.addcomment
+					}).then(comment => {
+						res.redirect(`/player/${video.filename}`)
+					})
+				})
+		}
+	})
 });
 
 async function validateUser(req) {
