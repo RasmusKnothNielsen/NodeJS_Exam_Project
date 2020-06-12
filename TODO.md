@@ -1,7 +1,14 @@
-- Get Auth to work          
+- Get Auth to work                  (DONE)        
 - Add sockets at the chatpage
 - Add chatpage
-    - Maybe find a way to chat with other people that watch the same video?
+    - Maybe find a way to chat with other people that watch the same video?     (DONE)
+    - Add a input field in the bottom of the chat page                          (DONE)
+    - When users access video page, emit that they join the chat, anon if not logged in
+    - When pressing enter or send button, emit to socket
+    - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text
+- Add chatpages for each video
+- Let the user join several rooms, by using more panels (faner)
+- Refactor all listener events to an external file and call it through it
 
 - Make sure that rate limiter is implemented    (DONE)
 
@@ -36,9 +43,11 @@
 
     - Implement that only logged in users can
         - Upload video              (DONE)
-        - Comment video
+        - Comment video             (DONE)
     
     - Implement that only the user who uploaded the video, can delete it
+
+- Remove like and dislike buttons?
 
 Change the name of the thumbnails to not just include the .png
 
@@ -58,6 +67,7 @@ AWS
 Install
 - Git
 - NodeJS
+- NPM
 - Express?
 - Nodemon
 - ffmpeg

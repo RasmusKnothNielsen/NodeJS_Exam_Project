@@ -18,7 +18,7 @@ $.get(`/videos/${videoId}`)
 		$('.title').text(response.response.title);
 
 		// Add the video to the player
-		const player = `<video id="player" width="320" height="240" controls>
+		const player = `<video id="player" width="480" height="360" controls>
                     <source src="/${videoId}">
                     Your browser does not support the video tag.
                 </video>`;
@@ -48,7 +48,7 @@ $.get(`/videos/${videoId}`)
 		const comments = response.response.comments;
 		comments.forEach(comment => {
 			commentDate = comment.createdAt
-			$('.comments').append(comment.userName + " - " + commentDate.substring(0,10) + ' - ' + commentDate.substring(11,20) +'<br>' + '-  ' + comment.comment + '<br><br>');
+			$('.comments').append('<div class="col-md-4 col-sm-6 col-xs-12">' + comment.userName + " - " + commentDate.substring(0,10) + ' - ' + commentDate.substring(11,20) +'<br>' + '-  ' + comment.comment + '<br><br></div>');
 		});
 	})
 	.catch((error) => {

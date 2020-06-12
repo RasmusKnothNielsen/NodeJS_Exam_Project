@@ -1,0 +1,53 @@
+<link rel="stylesheet" type="text/css" href="/player/player.css">
+
+<div class="row">
+    <div class="col-8">
+        <h1 class="title"></h1>
+        <div id="player-wrapper"></div>
+        <p class="description"></p>
+        <p class="added"></p>
+        <p class="tags">Tags: </p>
+        <p class="views">Views: </p>
+        <button>Like</button>
+        <button>Dislike</button> <br>
+      <div class="row">
+        <div class="col-12">
+            <br>
+            <h4>Leave a comment:</h4>
+
+            <div id="messages"></div>
+
+            <form action="/comment" method="POST">
+                <input id="hiddenvideoId" type="hidden" name="hiddenVideoId" value="">
+                <textarea name="addcomment" id="addcomment" cols="30" rows="5"></textarea><br>
+                <button type="submit">Add comment</button>
+            </form>
+            <p class="comments">Comments: <br><br></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">Live Chat <br>
+        <div id="history"></div>
+        <form id="chat">
+            <input type="text" id="thoughts" name="thoughts" />
+        </form>
+        <button id="btn-submit" onclick="onThoughtsSubmitted()">Post</button>
+
+        
+    </div>
+  </div> 
+
+  <script>
+    const socket = io.connect();
+    function onThoughtsSubmitted() {
+            const thoughts = $('#thoughts').val();
+            $('#thoughts').val("");
+            socket.emit("I'm thinking about this", { thoughts });
+        }
+
+        socket.on("Someone said", data => {
+            $('#history').append(`<div>${data.thoughts}</div>`)
+        })
+    </script>
+
+<script src="./player.js"></script>

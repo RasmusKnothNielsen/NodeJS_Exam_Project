@@ -1,5 +1,7 @@
 const express = require('express');
+const http = require('http');
 const app = express();
+const server = http.createServer(app);
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 
@@ -38,6 +40,40 @@ app.use(session({
     //cookie: { secure: true }
   }));
 
+/* SOCKETS IO */
+/* SOCKET IO */
+// Requiring SocketIO
+const io = require('socket.io').listen(server);
+// Prevent XSS (Cross Site Scripting)
+const escape = require('escape-html');
+
+// Creating listener for SocketIO
+io.on("connection", (socket) => {
+    console.log("Socket joined", socket.id);
+
+    socket.on("I'm thinking about this", ({ thoughts }) => {
+        // Sends out to all the clients
+        const today = new Date()
+        thoughts = today.getHours() + ":" + today.getMinutes() + " - " + thoughts
+
+        // Prevent XSS (Cross Site Scripting)
+        io.emit("Someone said", { thoughts: escape(thoughts) });
+
+        // Sends back to the specific socket
+        //socket.emit("Someone said", { thoughts });
+
+        // Sends to all clients, except the client that sends it
+        //socket.broadcast.emit("Someone said", { thoughts });
+
+
+    });
+
+
+    socket.on('disconnect', () => {
+        console.log("Socket left", socket.id)
+    });
+});
+
 // If undefined, start on 8686, else start on the provided portnumber
 const port = process.env.PORT ? process.env.PORT : 8686;
 
@@ -47,7 +83,7 @@ const navbarPage = fs.readFileSync(__dirname + '/public/navbar/navbar.html', 'ut
 const footerPage = fs.readFileSync(__dirname + '/public/footer/footer.html', 'utf-8');
 
 const frontpagePage = fs.readFileSync(__dirname + '/public/frontpage/frontpage.html', 'utf-8');
-const playerPage = fs.readFileSync(__dirname + '/public/player/player.html', 'utf-8');
+const playerPage = fs.readFileSync(__dirname + '/public/player/player2.html', 'utf-8');
 const uploadPage = fs.readFileSync(__dirname + '/public/upload/upload.html', 'utf-8');
 
 
@@ -100,11 +136,14 @@ function renderPage(path) {
 }
 
 /* Start server */
-app.listen(port, error => {
+
+server.listen(port, error => {
 	if (error) {
 		console.log(error.log);
 	}
 	console.log('The server has started on port', port);
-},
-);
+});
+
+
+
 
