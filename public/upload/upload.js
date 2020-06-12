@@ -32,7 +32,7 @@ function validateForm() {
 	sweetAlert({
 		position: 'top-end',
 		icon: 'success',
-		title: 'Your work has been saved',
+		title: 'Your video has been saved',
 		showConfirmButton: false,
 		timer: 1500,
 	  });

@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 
 // Import the fs to be able to interact with the filesystem
 const fs = require('fs');
@@ -11,6 +13,30 @@ app.use(express.urlencoded({ extended: true }));
 // Make NodeJS able to serve the files from /public and /videos.
 app.use(express.static('public'));
 app.use(express.static('videos'));
+
+// Rate limiting users
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 8 // limit each IP to 100 requests per windowMs
+  });
+  app.use("/login", limiter);
+  app.use("/signup", limiter);
+
+// Configure session
+app.use(session({
+    genid: (req) => {   // Generate an ID for our session, that has to be unique
+        // This will only be run, if the client does not have provided a sessionID already
+        // OR if the client sends a sessionID that the server does not recognize. Can happen if the server restarts/crashes.
+        console.log("Inside the session middleware")
+        console.log(req.sessionID);
+        return uuidv4();
+    },
+    secret: require('./config/mysqlCredentials').sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    //cookie: { secure: true }
+  }));
 
 // If undefined, start on 8686, else start on the provided portnumber
 const port = process.env.PORT ? process.env.PORT : 8686;

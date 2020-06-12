@@ -5,9 +5,11 @@ const fs = require('fs');
 const nodemailer = require('nodemailer')
 const mailCredentials = require('../config/mailCredentials');
 const { v4: uuidv4 } = require('uuid');
+const { swal } = require('sweetalert2');
 
 // Hashing Passwords
 const bcrypt = require('bcrypt');
+const { default: Swal } = require('sweetalert2');
 const saltRounds = 10;
 
 // Dictionary that can contain username and tokens for password reset
@@ -44,7 +46,8 @@ router.post('/login', async (req, res) => {
             req.session.username = userFound[0].username;
             // Add the users UUID, to show that we are logged in with the specific user
             req.session.uuid = userFound[0].uuid;
-            return res.redirect('/profile');
+
+            return res.redirect('/');
         }
         // If the user provided the wrong password
         else {
@@ -112,6 +115,7 @@ router.post('/signup', async (req, res) => {
                               console.log('Email sent: ' + info.response);
                             }
                           });
+                        
                     }
                     // If email is not provided
                     else {

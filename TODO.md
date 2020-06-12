@@ -1,12 +1,16 @@
-- Get Auth to work
+- Get Auth to work          
 - Add sockets at the chatpage
 - Add chatpage
     - Maybe find a way to chat with other people that watch the same video?
 
-- Make sure that rate limiter is implemented
+- Make sure that rate limiter is implemented    (DONE)
 
 - Add video info to Database instead of file    (DONE)
 - Implement Sweetalert pop ups
+    - At upload video
+    - At user signup
+    - At user login
+    - At user logout
 - Create tables in database (DONE)
     - Videos        (DONE)
     - Tags          (DONE)
