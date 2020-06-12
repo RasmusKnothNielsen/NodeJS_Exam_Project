@@ -4,6 +4,7 @@ exports.seed = function(knex) {
     return knex('videos').insert([
         { 
             title: 'Winter Bridge', 
+            userId: 2,
             description: 'Look at my beautiful bridge', 
             filename: 'd50bfc7e329146899913f8f8be856f193bd392e3.mp4', 
             thumbnail: 'd50bfc7e329146899913f8f8be856f193bd392e3.mp4.png', 
@@ -12,6 +13,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Ocean Waves', 
+            userId: 2,
             description: 'Watch the waves and enjoy', 
             filename: '1fb249005a44d5bbdf9788b7e0f6e0c4d8e758e1.mp4', 
             thumbnail: '1fb249005a44d5bbdf9788b7e0f6e0c4d8e758e1.mp4.png', 
@@ -20,6 +22,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Man enjoys Ocean Waves', 
+            userId: 1,
             description: 'Watch a man enjoying watching the waves', 
             filename: 'd430ccb3be606a29d259b95cbc850b4ae78b75ce.mp4', 
             thumbnail: 'd430ccb3be606a29d259b95cbc850b4ae78b75ce.mp4.png', 
@@ -28,6 +31,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'How to wash hands', 
+            userId: 2,
             description: 'Video demonstrating how to wash hands properly.', 
             filename: 'f3c14e27d589f4c59b9138dbae16498ec6eb62a2.mp4', 
             thumbnail: 'f3c14e27d589f4c59b9138dbae16498ec6eb62a2.mp4.png', 
@@ -36,6 +40,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'How to put on a mask', 
+            userId: 1,
             description: 'Informational movie about how to put on a mask in case of Corona virus outbreak.', 
             filename: '7c376d9474958b29cbb2bc1e1eedea1386685d52.mp4', 
             thumbnail: '7c376d9474958b29cbb2bc1e1eedea1386685d52.mp4.png', 
@@ -44,6 +49,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Drone footage of small town', 
+            userId: 2,
             description: '', 
             filename: '342a298c0a5fb0305329d4d54406a47f34ce44bd.mp4', 
             thumbnail: '342a298c0a5fb0305329d4d54406a47f34ce44bd.mp4.png', 
@@ -52,6 +58,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Forest in wintertime', 
+            userId: 2,
             description: 'Drone footage of forest', 
             filename: '5b7aa6e0487f03a3c563e8c1586f27ecf739a0bc.mp4', 
             thumbnail: '5b7aa6e0487f03a3c563e8c1586f27ecf739a0bc.mp4.png', 
@@ -60,6 +67,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Cello at sun down', 
+            userId: 1,
             description: '', 
             filename: '3618f6ee2b0089c632179a4c37175c05c64d7bf1.mp4', 
             thumbnail: '3618f6ee2b0089c632179a4c37175c05c64d7bf1.mp4.png', 
@@ -68,6 +76,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Medieval Castle', 
+            userId: 1,
             description: '', 
             filename: '409d9be0db4e1f7da72c07b61e81033d94bb3e56.mp4', 
             thumbnail: '409d9be0db4e1f7da72c07b61e81033d94bb3e56.mp4.png', 
@@ -75,7 +84,8 @@ exports.seed = function(knex) {
             views: 1
         },
         { 
-            title: 'Blooming Daffodil', 
+            title: 'Blooming Daffodil',
+            userId: 1, 
             description: '', 
             filename: '9ac8c098133a4e5b604503261b5a55f158ed0af5.mp4', 
             thumbnail: '9ac8c098133a4e5b604503261b5a55f158ed0af5.mp4.png', 
@@ -84,6 +94,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Divine Peace', 
+            userId: 1,
             description: '', 
             filename: '91954c9136e5e388f25b8d799549e4c1835471d0.mp4', 
             thumbnail: '91954c9136e5e388f25b8d799549e4c1835471d0.mp4.png', 
@@ -92,6 +103,7 @@ exports.seed = function(knex) {
         },
         { 
             title: 'Heart Beats', 
+            userId: 2,
             description: '', 
             filename: '36ee28917a547a55674332212a9529fee0929236.mp4', 
             thumbnail: '36ee28917a547a55674332212a9529fee0929236.mp4.png', 

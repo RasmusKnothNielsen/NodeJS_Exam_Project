@@ -17,14 +17,22 @@
     - Comments      (DONE)
 - Add Seeds for videos, tags and comments   (DONE)
 
+- Change DB table Videos, to reflect that they are linked to specific user  (DONE)
+    - New Migration file    (DONE)
+
 - Change where the video info comes from, from json object to database
     - Reading videos from Database  (DONE)
     - Saving videos to database     (DONE)
     - Reading comments              (DONE)
     - Saving comments               (DONE)
-    - Implement that only logged in people can comment, and update their name from NoName to username in /comment route
     - Reading tags                  (DONE)
     - Saving tags                   (DONE)
+
+    - Implement that only logged in users can
+        - Upload video              (DONE)
+        - Comment video
+    
+    - Implement that only the user who uploaded the video, can delete it
 
 Change the name of the thumbnails to not just include the .png
 

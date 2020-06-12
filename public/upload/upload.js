@@ -29,14 +29,17 @@ function validateForm() {
 		return false;
 	}
 
-	sweetAlert({
-		position: 'top-end',
-		icon: 'success',
-		title: 'Your video has been saved',
-		showConfirmButton: false,
-		timer: 1500,
-	  });
-	return true && fileValid;
+
+	swal({ title: "WOW!",
+ 		text: "Message!",
+		type: "success"
+	}).on('click', 'something', {
+   		if (okay) {
+    		return true && fileValid;
+  		}
+	});
+
+
 }
 // How to access information from a form
 // JQuery

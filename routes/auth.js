@@ -44,8 +44,12 @@ router.post('/login', async (req, res) => {
             // TODO Trying this as authentication
             req.session.authenticated = true;
             req.session.username = userFound[0].username;
+            req.session.userid = userFound[0].id
             // Add the users UUID, to show that we are logged in with the specific user
             req.session.uuid = userFound[0].uuid;
+
+            // TODO REMOVE, ONLY FOR TESTING
+            console.log(req.session)
 
             return res.redirect('/');
         }

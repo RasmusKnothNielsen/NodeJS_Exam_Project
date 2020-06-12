@@ -52,6 +52,7 @@ const Tag = require('../models/Tag');
 const Knex = require('knex');
 const { Model } = require('objection');
 const knexConfig = require('../knexfile');
+const User = require('../models/User');
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 
@@ -91,7 +92,7 @@ router.get('/videos/:videoId', async (req, res) => {
 });
 
 // Create video
-router.post('/videos', upload.single('video'), (req, res) => {
+router.post('/videos', upload.single('video'), async (req, res) => {
 	// req.file is the `avatar` file
 	// req.body will hold the text fields, if there were any
 	const title = req.body.title ? req.body.title : '';
@@ -100,90 +101,59 @@ router.post('/videos', upload.single('video'), (req, res) => {
 	const category = req.body.category;
 	// Split the tags with whitespace or commas
 	const tags = req.body.tags.split(/\s*[,\s]\s*/);
-	
-	// SHOULD NOT BE NECESSARY, since we do it db side
-	// Get current date
-	//const d = new Date();
-	//const currentDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
 
-	// Server side validation
-	const errors = validateUserUpload(title, description, category);
-	if (errors.length > 0) {
-		return res.send({ response: errors });
-	}
-	else {
-		let generated_tags = [];
-		const middleOfFilm = req.file.size / 100 / 60 / 60;
-		console.log(req.file);
-		
-		// Create thumbnail
-		console.log("Starting to make thumbnail")
-		console.log("Dir:", __dirname + '/thumbnails')
+	// Check if user is logged in
+	const userid = req.session.userid;
+	console.log("USERID:", userid);
+	const validatedUser = await validateUser(req).then( message => {
+		if (message == false) {
+			return res.send({response: 'Only logged in users can upload videos'})
+		}
+		else {
+			// Server side validation
+			const errors = validateUserUpload(title, description, category);
+			if (errors.length > 0) {
+				return res.send({ response: errors });
+			}
+			else {
+				let generated_tags = [];
+				const middleOfFilm = req.file.size / 100 / 60 / 60;
+				console.log(req.file);
+				
+				// Create thumbnail
+				console.log("Starting to make thumbnail")
+				console.log("Dir:", __dirname + '/thumbnails')
 
-		ffmpeg(req.file.path)
-		.screenshots({
-			timestamps: ['50%'],
-			filename: fileName + '.png',
-			folder: path.join(process.cwd() + '/public/images/thumbnails'),
-			size: '640x480'
-		}).on('end', () => {
-			console.log('done with thumbnail');
+				ffmpeg(req.file.path)
+				.screenshots({
+					timestamps: ['50%'],
+					filename: fileName + '.png',
+					folder: path.join(process.cwd() + '/public/images/thumbnails'),
+					size: '640x480'
+				}).on('end', () => {
+					console.log('done with thumbnail');
 
-			// Create tags via Tensorflow mobilenet image recognition
-			const generated_tags = generateTags(fileName);
-		});
-		/*
-		ffmpeg(req.file.path).takeScreenshots({
-			timestamps: [middleOfFilm],
-			filename: fileName + '.png',
-			folder: path.join(__dirname + '/thumbnails/'),
-			size: '640x480',
-			autopad: 'black',
-		}).on('end', function() {
-			console.log('done with thumbnail');
+					// Create tags via Tensorflow mobilenet image recognition
+					const generated_tags = generateTags(fileName);
+				});
 
-			// Create tags via Tensorflow mobilenet image recognition
-			const generated_tags = generateTags(fileName);
-		});
-		*/
-		
-		
-
-		/*
-		// Push the new video to the front of the videos array
-		videos.unshift({
-			title: title,
-			description: description,
-			fileName: fileName,
-			thumbnail: fileName + '.png',
-			category: category,
-			tags: generated_tags,
-			uploadDate: currentDate,
-			views: 0,
-			comments: [],
-		});
-
-		fs.writeFileSync('./data.json', JSON.stringify(videos), 'utf-8');
-		*/
-		
-		// Create video object
-
-		// Insert into DB
-		Video.query().insert({
-			title: title,
-			description: description,
-			filename: fileName,
-			thumbnail: fileName + '.png',
-			category: category,
-			tags: generated_tags,
-			views: 0
-		}).then( video => {
-			return res.redirect(`/player/${video.filename}`);
-		})
-
-		//console.log(videos);
-		//return res.redirect(`/player/${fileName}`);
-	}
+				// Insert into DB
+				Video.query().insert({
+					title: title,
+					description: description,
+					filename: fileName,
+					thumbnail: fileName + '.png',
+					category: category,
+					tags: generated_tags,
+					views: 0,
+					userId: userid
+				}).then( video => {
+					return res.redirect(`/player/${video.filename}`);
+				})
+			}
+				}
+			});
+			//console.log("RESULT OF validateUser():", validatedUser)
 
 });
 
@@ -203,6 +173,26 @@ router.post('/comment', async (req, res) => {
 		})
 	res.redirect(`/player/${video.filename}`)
 });
+
+async function validateUser(req) {
+	// Check if session is present:
+	console.log("REQ.SESSION:", req.session)
+	if (req.session.authenticated == true) {
+		// Check if userid and UUID is in the DB
+		console.log("AUTHENTICATED IS EQUAL TO TRUE")
+		const userFound = await User.query().select().where({'uuid': req.session.uuid}).limit(1)
+			.then( user => {
+				console.log("QUERY DB DONE")
+				if (user.length > 0) {
+					return true
+				}
+			});
+	}
+	else {
+		return false
+	}
+	
+}
 
 function validateUserUpload(title, description, category) {
 
