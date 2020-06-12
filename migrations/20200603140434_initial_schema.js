@@ -47,7 +47,10 @@ exports.up = function(knex) {
           table.integer('video_id').unsigned().notNullable();
           table.foreign('video_id').references('videos.id');
 
-          table.string('username').notNullable();
+          // Foreign key that references id in users
+          table.integer('user_id').unsigned().notNullable();
+          table.foreign('user_id').references('users.id')
+          
           table.string('comment').notNullable();
           table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
         })

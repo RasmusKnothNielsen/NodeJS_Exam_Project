@@ -1,6 +1,7 @@
 const { Model } = require('objection');
 
 const Video = require('./Video.js');
+const User = require('./User.js');
 
 class Comment extends Model {
     static tableName = 'comments';
@@ -12,6 +13,14 @@ class Comment extends Model {
             join: {
                 from: 'comments.videoId',
                 to: 'videos.id'
+            }
+        },
+        user: {
+            relation: Model.BelongsToOneRelation,
+            modelClass: User,
+            join: {
+                from: 'comments.userId',
+                to: 'users.id'
             }
         }
     };

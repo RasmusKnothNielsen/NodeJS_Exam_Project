@@ -7,22 +7,22 @@ exports.seed = function(knex) {
       return knex('comments').insert([
         { 
           video_id: videos[0].id, 
-          username: 'Hagrid', 
+          userId: 1, 
           comment: 'What a lovely bridge, you got there' 
         },
         { 
           video_id: videos[1].id, 
-          username: 'Camus', 
+          userId: 2, 
           comment: 'Nice video, mate!' 
         },
         { 
           video_id: videos[2].id, 
-          username: 'Beanieman', 
+          userId: 2, 
           comment: 'Nice beanie, man' 
         },
         { 
           video_id: videos[3].id, 
-          username: 'MrDoc', 
+          userId: 3, 
           comment: 'Sounds like music!' 
         },
       ]);
