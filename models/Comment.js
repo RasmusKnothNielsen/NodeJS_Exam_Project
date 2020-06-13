@@ -4,26 +4,30 @@ const Video = require('./Video.js');
 const User = require('./User.js');
 
 class Comment extends Model {
-    static tableName = 'comments';
+    static get tableName() {
+        return 'comments';
+    } 
 
-    static relationMappings = {
-        video: {
-            relation: Model.BelongsToOneRelation,
-            modelClass: Video,
-            join: {
-                from: 'comments.videoId',
-                to: 'videos.id'
+    static get relationMappings() {
+        return {
+            video: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Video,
+                join: {
+                    from: 'comments.videoId',
+                    to: 'videos.id'
+                }
+            },
+            user: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: User,
+                join: {
+                    from: 'comments.userId',
+                    to: 'users.id'
+                }
             }
-        },
-        user: {
-            relation: Model.BelongsToOneRelation,
-            modelClass: User,
-            join: {
-                from: 'comments.userId',
-                to: 'users.id'
-            }
-        }
-    };
+        };
+    }
 }
 
 module.exports = Comment;

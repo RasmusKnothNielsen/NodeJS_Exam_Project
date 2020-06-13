@@ -129,3 +129,7 @@ What i did to make it work
 - Removed CURRENT_TIMESTAMP from migrations
 - Changed each Model to be static get tableName() etc
 - Installed tensorflow 
+
+
+More problems in regard of online hosting
+- Time in chat seems to be two hours behind
