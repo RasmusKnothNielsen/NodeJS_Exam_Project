@@ -128,8 +128,8 @@ https://medium.com/monstar-lab-bangladesh-engineering/deploying-node-js-apps-in-
 What i did to make it work
 - Removed CURRENT_TIMESTAMP from migrations
 - Changed each Model to be static get tableName() etc
-- Installed tensorflow 
-
+- Installed tensorflow https://stackoverflow.com/questions/56047654/tensorflowjs-typeerror-cannot-read-property-fetch-of-undefined and https://technodezi.co.za/Post/running-face-apijs-or-tfjs-node-on-a-raspberry-pi-and-nodejs 
+- installed FFMPEG https://www.binarycomputer.solutions/install-ffmpeg-centos-6-centos-7/
 
 More problems in regard of online hosting
 - Time in chat seems to be two hours behind

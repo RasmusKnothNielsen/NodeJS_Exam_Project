@@ -5,7 +5,7 @@ exports.up = function(knex) {
             table.increments('id').notNullable();
             table.string('role').unique().notNullable();
         })
-        .createTable('users', (table) => {
+	.createTable('users', (table) => {
             table.increments('id').notNullable();     //Using increments, promotes it to primary key
             table.string('username').unique().notNullable();
             table.string('password').notNullable();
@@ -19,21 +19,22 @@ exports.up = function(knex) {
             table.integer('role_id').unsigned().notNullable();
             table.foreign('role_id').references('roles.id');
 
-            table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-            table.dateTime('updated_at').defaultTo(knex.raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
+            table.timestamp('created_at').defaultTo(knex.fn.now());
+            table.timestamp('updated_at').defaultTo('0000-00-00 00:00:00 ', knex.raw('ON UPDATE now()'));
+
         })
-        .createTable('videos', (table) => {
+	.createTable('videos', (table) => {
           table.increments('id').notNullable();
           table.string('title').notNullable();
           table.string('description');
           table.string('filename').unique().notNullable();
           table.string('thumbnail').unique();
           table.string('category');
-          table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+          table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
           table.integer('views');
 
         })
-        .createTable('tags', (table) => {
+	.createTable('tags', (table) => {
           table.increments('id').notNullable();
           // Foreign key that references id in videos
           table.integer('video_id').unsigned().notNullable();
@@ -44,7 +45,7 @@ exports.up = function(knex) {
         .createTable('comments', (table) => {
           table.increments('id').notNullable();
           // Foreign key that references id in videos
-          table.integer('video_id').unsigned().notNullable();
+	  table.integer('video_id').unsigned().notNullable();
           table.foreign('video_id').references('videos.id');
 
           // Foreign key that references id in users
@@ -52,12 +53,10 @@ exports.up = function(knex) {
           table.foreign('user_id').references('users.id')
 
           table.string('user_name').notNullable();
-          
           table.string('comment').notNullable();
-          table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+          table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
         })
 };
-
 exports.down = function(knex) {
   // Rollback, like undoing some changes
   return knex.schema
