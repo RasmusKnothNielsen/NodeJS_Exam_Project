@@ -4,13 +4,14 @@
     - Maybe find a way to chat with other people that watch the same video?     (DONE)
     - Add a input field in the bottom of the chat page                          (DONE)
     - When users access video page, emit that they join the chat, anon if not logged in
-    - When pressing enter or send button, emit to socket
+    - When pressing enter or send button, emit to socket                        (DONE)
     - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text
 - Add chatpages for each video
 - Let the user join several rooms, by using more panels (faner)
 - Refactor all listener events to an external file and call it through it
 
 - Make sure that rate limiter is implemented    (DONE)
+- Change email text from user creation to reflect KeaTube
 
 - Change how comments are displayed under videos        
     - Implement a way to display the proper user name   (DONE)
@@ -51,7 +52,7 @@
 
 Change the name of the thumbnails to not just include the .png
 
-Try to implement AJAX on player site, so that we can add comments without reloading the page.
+Try to implement AJAX on chat site, so that we can add comments without reloading the page.     (MAYBY DONE?)
 
 
 - Add login page                        (DONE)
@@ -64,14 +65,23 @@ Try to implement AJAX on player site, so that we can add comments without reload
 
 AWS
 
+- Create instance       (DONE)
+- Login with SSH        (DONE)
+
 Install
-- Git
-- NodeJS
-- NPM
-- Express?
-- Nodemon
-- ffmpeg
-- Mysql database
+- Mysql database        (DONE)
+- Git                   (DONE)
+- NodeJS                (DONE)
+- NPM                   (DONE)
+- Express?              (DONE)
+- Nodemon               (DONE)
+- ffmpeg                (DONE)
+- PM2                   (DONE)
+- Git Clone Repo        (DONE)
+
+
+- Set up PM, to auto start app and mysql server at restart/crash
+
 
 Double Check HARD REQUIREMENTS:  
 Backend  
@@ -80,7 +90,7 @@ Backend
 - ORM / ODM     (DONE)
 
 Frontend  
-- Plain HTML
+- Plain HTML    (DONE)
 - AJAX / Fetch
 - Sockets
 
@@ -100,3 +110,22 @@ How to reset db
 
 Or just
 > $ npm run cleanDB
+
+
+AWS MySQL Server
+You can start the MySQL daemon with:
+cd /usr ; /usr/libexec/mysql55/mysqld_safe &
+
+## Nice links:
+
+### MySQL Install
+https://medium.com/@chamikakasun/installing-mysql-in-an-ec2-instance-55d6a3e19caf
+
+### Dev tools, nodeJS and PM2
+https://medium.com/monstar-lab-bangladesh-engineering/deploying-node-js-apps-in-amazon-linux-with-pm2-7fc3ef5897bb
+
+
+What i did to make it work
+- Removed CURRENT_TIMESTAMP from migrations
+- Changed each Model to be static get tableName() etc
+- Installed tensorflow 
