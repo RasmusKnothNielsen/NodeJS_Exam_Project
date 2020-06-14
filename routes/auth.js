@@ -108,8 +108,8 @@ router.post('/signup', async (req, res) => {
                         const mailOptions = {
                             from: mailCredentials.user,
                             to: email,
-                            subject: 'User created on Mandatory II website',
-                            text: `A user has just been created at the Mandatory II website using this email. If you did not create this user, please notify us!`
+                            subject: 'User created on KeaTube',
+                            text: `A user has just been created at KeaTube using this email. If you did not create this user, please notify us!`
                           };
                           
                           transporter.sendMail(mailOptions, function(error, info){
@@ -185,7 +185,7 @@ router.post('/resetpassword', async (req, res) => {
                         const mailOptions = {
                             from: mailCredentials.user,
                             to: email,
-                            subject: 'Resetting mail',
+                            subject: 'KeaTube - Resetting mail',
                             text: `Use the following token to reset your password: ${userToken}\nGo to /passwordReset for further information.`
                           };
                           
