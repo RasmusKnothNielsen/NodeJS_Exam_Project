@@ -17,20 +17,20 @@ app.use(express.static('public'));
 app.use(express.static('videos'));
 
 // Rate limiting users
-const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 8 // limit each IP to 100 requests per windowMs
   });
-  app.use("/login", limiter);
-  app.use("/signup", limiter);
+  app.use('/login', limiter);
+  app.use('/signup', limiter);
 
 // Configure session
 app.use(session({
     genid: (req) => {   // Generate an ID for our session, that has to be unique
         // This will only be run, if the client does not have provided a sessionID already
         // OR if the client sends a sessionID that the server does not recognize. Can happen if the server restarts/crashes.
-        console.log("Inside the session middleware")
+        console.log('Inside the session middleware')
         console.log(req.sessionID);
         return uuidv4();
     },
@@ -53,28 +53,30 @@ io.sockets.on('connection', (socket) => {
     // When a client has connected, we expect to hear what room they are joining
     socket.on('room', (room) => {
         socket.join(room);
-        console.log("Room joined:", room);
+        console.log('Room joined:', room);
     })
 
     // User loads a specific page and thus joining it's live chat
     socket.on('join room', (room, username) => {
         socket.join(room);
-        console.log("Room wants to be join:", room);
-        console.log("By socket:", socket.id)
-        io.sockets.in(room).emit('Someone joined', `${username} just joined the chat!`);
+        console.log('Room wants to be join:', room);
+        console.log('By socket:', socket.id)
+        socket.emit('Someone joined', 'You just joined the chat!');
+        socket.broadcast.emit('Someone joined', `${username} just joined the chat!`);
+        //io.sockets.in(room).emit('Someone joined', `${username} just joined the chat!`);
     })
 
     // Handling messages to everyone in the same room
-    socket.on("Send message", ({ thoughts, room, username }) => {
+    socket.on('Send message', ({ thoughts, room, username }) => {
         // Sends out to all the clients
         const today = new Date()
-        time = today.getHours() + ":" + today.getMinutes();
+        time = today.getHours() + ':' + today.getMinutes();
         // Prevent XSS (Cross Site Scripting)
         io.sockets.in(room).emit('Someone said', time, { thoughts: escape(thoughts)}, username);
     });
 
     // Sending out name changes to al in channel
-    socket.on("Name change", ({ room, username, newUsername }) => {
+    socket.on('Name change', ({ room, username, newUsername }) => {
         io.sockets.in(room).emit('Someone changed name', `${username} changed username to ${newUsername}`);
     });
 

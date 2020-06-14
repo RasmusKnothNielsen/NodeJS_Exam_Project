@@ -14,6 +14,13 @@
 
 - Refactor all listener events to an external file and call it through it
 
+IMPORTANT:
+- Implement proper error handling when
+    - User tries to comment when not logged in
+    - User provides wrong username / password
+    - User tries to upload without being logged in
+
+- Make sure that if not logged in users try to go to /upload, they will be rejected
 
 - Make sure that rate limiter is implemented    (DONE)
 - Change email text from user creation to reflect KeaTube   (DONE)
@@ -66,6 +73,13 @@ Try to implement AJAX on chat site, so that we can add comments without reloadin
 - Connect signup page to rest of design
 - Add resetpassword page                (DONE)
 - connect resetpassword page with rest of design
+
+
+- Clean up pages
+    - Make sure to use '' instead og ""
+    - Remove comments and printouts that are not necesary
+    - Make sure that there is enough comments where it needs to be
+
 
 
 AWS
