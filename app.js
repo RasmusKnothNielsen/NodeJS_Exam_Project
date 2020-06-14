@@ -96,7 +96,7 @@ const navbarPage = fs.readFileSync(__dirname + '/public/navbar/navbar.html', 'ut
 const footerPage = fs.readFileSync(__dirname + '/public/footer/footer.html', 'utf-8');
 
 const frontpagePage = fs.readFileSync(__dirname + '/public/frontpage/frontpage.html', 'utf-8');
-const playerPage = fs.readFileSync(__dirname + '/public/player/player2.html', 'utf-8');
+const playerPage = fs.readFileSync(__dirname + '/public/player/player.html', 'utf-8');
 const uploadPage = fs.readFileSync(__dirname + '/public/upload/upload.html', 'utf-8');
 
 
