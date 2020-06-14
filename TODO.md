@@ -1,14 +1,26 @@
 - Get Auth to work                  (DONE)        
-- Add sockets at the chatpage
+- Add sockets at the chatpage       (DONE)
 - Add chatpage
     - Maybe find a way to chat with other people that watch the same video?     (DONE)
     - Add a input field in the bottom of the chat page                          (DONE)
-    - When users access video page, emit that they join the chat, anon if not logged in
+    - When users access video page, emit that they join the chat, anon if not logged in     (DONE)
     - When pressing enter or send button, emit to socket                        (DONE)
-    - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text
-- Add chatpages for each video
-- Let the user join several rooms, by using more panels (faner)
+    - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text (DONE)
+    - Implement auto scroll down when new messages is in.                       (DONE)
+- Add chatpages for each video                                                  (DONE)
+- Let the user join several rooms, by using more panels (faner)                 (DONE)
+
+- Allow users to change name from Anon          (DONE)
+
 - Refactor all listener events to an external file and call it through it
+
+IMPORTANT:
+- Implement proper error handling when
+    - User tries to comment when not logged in
+    - User provides wrong username / password
+    - User tries to upload without being logged in
+
+- Make sure that if not logged in users try to go to /upload, they will be rejected
 
 - Make sure that rate limiter is implemented    (DONE)
 - Change email text from user creation to reflect KeaTube   (DONE)
@@ -34,7 +46,7 @@
 - Change DB table Videos, to reflect that they are linked to specific user  (DONE)
     - New Migration file    (DONE)
 
-- Change where the video info comes from, from json object to database
+- Change where the video info comes from, from json object to database  (DONE)
     - Reading videos from Database  (DONE)
     - Saving videos to database     (DONE)
     - Reading comments              (DONE)
@@ -46,9 +58,13 @@
         - Upload video              (DONE)
         - Comment video             (DONE)
     
-    - Implement that only the user who uploaded the video, can delete it
+    - Implement that only the user/admin who uploaded the video, can delete it
 
+<<<<<<< HEAD
 - Remove like and dislike buttons?  (DONE)
+=======
+- Remove like and dislike buttons?                  (DONE)
+>>>>>>> 3d0f086f20b95c1951b6aae69d6c81fc79674c5a
 
 Change the name of the thumbnails to not just include the .png
 
@@ -61,6 +77,13 @@ Try to implement AJAX on chat site, so that we can add comments without reloadin
 - Connect signup page to rest of design
 - Add resetpassword page                (DONE)
 - connect resetpassword page with rest of design
+
+
+- Clean up pages
+    - Make sure to use '' instead og ""
+    - Remove comments and printouts that are not necesary
+    - Make sure that there is enough comments where it needs to be
+
 
 
 AWS
@@ -92,12 +115,12 @@ Backend
 Frontend  
 - Plain HTML    (DONE)
 - AJAX / Fetch
-- Sockets
+- Sockets       (DONE)
 
 SOFT REQUIREMENTS:  
 - Clean Codebase
 - Style website
-- Host Application on AWS or the like
+- Host Application on AWS or the like       (DONE)
 
 
 How to build db

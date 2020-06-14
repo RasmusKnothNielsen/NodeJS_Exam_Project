@@ -37,15 +37,64 @@
 
   <script>
     const socket = io.connect();
+    // Get the current room name from splitting the URL by slashes and use the videoID
+    const room = window.location.href.split("/")[4];
+    let username = "Anon";
+    socket.emit('join room', room, username)
+    //socket.on('message', function(data) {
+    //    console.log('Incoming message:', data);
+    //});
     function onThoughtsSubmitted() {
-            const thoughts = $('#thoughts').val();
-            $('#thoughts').val("");
-            socket.emit("I'm thinking about this", { thoughts });
-        }
 
-        socket.on("Someone said", data => {
-            $('#history').append(`<div>${data.thoughts}</div>`)
-        })
+        const thoughts = $('#thoughts').val();
+        $('#thoughts').val("");
+
+        // Support for commands
+        if (thoughts.slice(0,1) == "/") {
+
+            // Let users change name by writing "/name $desired_username"
+            if (thoughts.slice(0,5) == "/name") {
+                newUsername = thoughts.split(" ")[1];
+                console.log("Username is now:", username);
+                socket.emit("Name change", { room, username, newUsername });
+                username = newUsername;
+            }
+
+        }
+        // Let users change name by writing "/name $desired_username"
+        else {
+        // Send everything that is now blank
+            if (thoughts != "") {
+                socket.emit("Send message", { thoughts, room, username });
+            }
+            //socket.emit("connection successful", { currentVideo });
+
+            // REMOVE THIS AFTER DEBUGGING!
+            //socket.emit("I'm thinking about this", { thoughts, room, username });
+        }
+    }
+
+    function onLeavePage() {
+        console.log("USER LEFT PAGE")
+        socket.emit("disconnecting",  ({room, username}));
+    }
+
+    socket.on("Someone joined", (data) => {
+        $('#history').prepend(`<div>${data}</div>`);
+    });
+
+    socket.on("Someone changed name", (data) => {
+        $('#history').prepend(`<div>${data}</div>`);
+    }); 
+
+    socket.on("Someone said", (time, data, username) => {
+        $('#history').prepend(`<div>${time} - ${username}: ${data.thoughts}</div>`);
+    });
+
+    socket.on("Someone left", (data) => {
+        $('#history').prepend(`<div>${data}</div>`);
+    });
     </script>
 
+<body onunload="onLeavePage()">
 <script src="./player.js"></script>
