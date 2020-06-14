@@ -11,7 +11,7 @@
 - Refactor all listener events to an external file and call it through it
 
 - Make sure that rate limiter is implemented    (DONE)
-- Change email text from user creation to reflect KeaTube
+- Change email text from user creation to reflect KeaTube   (DONE)
 
 - Change how comments are displayed under videos        
     - Implement a way to display the proper user name   (DONE)
