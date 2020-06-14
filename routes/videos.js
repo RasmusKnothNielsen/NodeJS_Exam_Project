@@ -100,7 +100,7 @@ router.post('/videos', upload.single('video'), async (req, res) => {
 	console.log("USERID:", userid);
 	const validatedUser = await validateUser(req).then( message => {
 		if (message == false) {
-			return res.send({response: 'Only logged in users can upload videos'})
+			return res.redirect('/login?error=notloggedinupload')
 		}
 		else {
 			// Server side validation
@@ -154,7 +154,7 @@ router.post('/comment', async (req, res) => {
 
 	const validatedUser = await validateUser(req).then( validated => {
 		if (validated == false) {
-			return res.redirect('/login?error=notloggedin');
+			return res.redirect('/login?error=notloggedincomment');
 			
 		}
 		else {

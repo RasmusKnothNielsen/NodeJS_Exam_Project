@@ -116,7 +116,7 @@ app.get('/upload', (req, res) => {
          return res.send(navbarPage + uploadPage + footerPage);
     }
     else {
-        return res.redirect('/login?error=notloggedin');
+        return res.redirect('/login?error=notloggedinupload');
     }
 });
 

@@ -30,7 +30,12 @@
 <script>
   // If we can do the next line, there is at least one pathvariable
   const pathVariable = window.location.href.split("?")[1]
-  if (pathVariable == 'error=notloggedin') {
-    sweetAlert('Login for features such as uploading videos and commenting.')
+  // User tried to comment without being logged in
+  if (pathVariable == 'error=notloggedincomment') {
+    sweetAlert('Login before you can comment!')
+  }
+  // User tried to access upload page without being logged in
+  else if (pathVariable == 'error=notloggedinupload') {
+    sweetAlert('Login before you can upload videos!')
   }
 </script>
