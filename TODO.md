@@ -34,7 +34,7 @@
 - Change DB table Videos, to reflect that they are linked to specific user  (DONE)
     - New Migration file    (DONE)
 
-- Change where the video info comes from, from json object to database
+- Change where the video info comes from, from json object to database  (DONE)
     - Reading videos from Database  (DONE)
     - Saving videos to database     (DONE)
     - Reading comments              (DONE)
@@ -46,9 +46,9 @@
         - Upload video              (DONE)
         - Comment video             (DONE)
     
-    - Implement that only the user who uploaded the video, can delete it
+    - Implement that only the user/admin who uploaded the video, can delete it
 
-- Remove like and dislike buttons?
+- Remove like and dislike buttons?                  (DONE)
 
 Change the name of the thumbnails to not just include the .png
 
@@ -97,7 +97,7 @@ Frontend
 SOFT REQUIREMENTS:  
 - Clean Codebase
 - Style website
-- Host Application on AWS or the like
+- Host Application on AWS or the like       (DONE)
 
 
 How to build db
