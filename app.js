@@ -47,9 +47,49 @@ const io = require('socket.io').listen(server);
 // Prevent XSS (Cross Site Scripting)
 const escape = require('escape-html');
 
+
+// Handle incomming connections from clients
+io.sockets.on('connection', (socket) => {
+    // When a client has connected, we expect to hear what room they are joining
+    socket.on('room', (room) => {
+        socket.join(room);
+        console.log("Room joined:", room);
+    })
+
+    // User loads a specific page and thus joining it's live chat
+    socket.on('join room', (room, username) => {
+        socket.join(room);
+        console.log("Room wants to be join:", room);
+        console.log("By socket:", socket.id)
+        io.sockets.in(room).emit('Someone joined', `${username} just joined the chat!`);
+    })
+
+    // Handling messages to everyone in the same room
+    socket.on("Send message", ({ thoughts, room, username }) => {
+        // Sends out to all the clients
+        const today = new Date()
+        time = today.getHours() + ":" + today.getMinutes();
+        // Prevent XSS (Cross Site Scripting)
+        io.sockets.in(room).emit('Someone said', time, { thoughts: escape(thoughts)}, username);
+    });
+
+    // Sending out name changes to al in channel
+    socket.on("Name change", ({ room, username, newUsername }) => {
+        io.sockets.in(room).emit('Someone changed name', `${username} changed username to ${newUsername}`);
+    });
+
+    // Sends a disconnect message to the rest of the room and leaves it
+    socket.on('disconnecting', (data) => {
+        io.sockets.in(data.room).emit('Someone left', `${data.username} left the chat`);
+        socket.leave(data.room)
+    });
+});
+
+/*
 // Creating listener for SocketIO
 io.on("connection", (socket) => {
     console.log("Socket joined", socket.id);
+
 
     socket.on("I'm thinking about this", ({ thoughts }) => {
         // Sends out to all the clients
@@ -73,6 +113,7 @@ io.on("connection", (socket) => {
         console.log("Socket left", socket.id)
     });
 });
+*/
 
 // If undefined, start on 8686, else start on the provided portnumber
 const port = process.env.PORT ? process.env.PORT : 8686;
@@ -124,6 +165,7 @@ app.get('/passwordreset', (req, res) => {
 // Import routes
 const videosRoute = require('./routes/videos');
 const authRoute = require('./routes/auth');
+const { ConstraintViolationError } = require('objection');
 // Setup routes
 app.use(videosRoute);
 app.use(authRoute);

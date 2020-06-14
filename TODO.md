@@ -1,14 +1,19 @@
 - Get Auth to work                  (DONE)        
-- Add sockets at the chatpage
+- Add sockets at the chatpage       (DONE)
 - Add chatpage
     - Maybe find a way to chat with other people that watch the same video?     (DONE)
     - Add a input field in the bottom of the chat page                          (DONE)
-    - When users access video page, emit that they join the chat, anon if not logged in
+    - When users access video page, emit that they join the chat, anon if not logged in     (DONE)
     - When pressing enter or send button, emit to socket                        (DONE)
-    - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text
-- Add chatpages for each video
-- Let the user join several rooms, by using more panels (faner)
+    - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text (DONE)
+    - Implement auto scroll down when new messages is in.                       (DONE)
+- Add chatpages for each video                                                  (DONE)
+- Let the user join several rooms, by using more panels (faner)                 (DONE)
+
+- Allow users to change name from Anon          (DONE)
+
 - Refactor all listener events to an external file and call it through it
+
 
 - Make sure that rate limiter is implemented    (DONE)
 - Change email text from user creation to reflect KeaTube   (DONE)
@@ -92,7 +97,7 @@ Backend
 Frontend  
 - Plain HTML    (DONE)
 - AJAX / Fetch
-- Sockets
+- Sockets       (DONE)
 
 SOFT REQUIREMENTS:  
 - Clean Codebase
