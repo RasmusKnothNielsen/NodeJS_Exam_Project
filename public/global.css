@@ -15,6 +15,16 @@
     min-height: calc(100vh - 70px);
 }
 
+body {
+    background: lightblue;
+    padding: 10px;
+   }
+
+#user-input-center {
+    display: flex;
+    justify-content: center;
+}
+
 footer {
     height: 10px;
 }

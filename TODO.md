@@ -74,6 +74,12 @@ Try to implement AJAX on chat site, so that we can add comments without reloadin
 - Add resetpassword page                (DONE)
 - connect resetpassword page with rest of design
 
+- Add AJAX / Fetch to a site        (DONE)  Added it at upload video, for random video naming.
+
+- Consider to remove "SEARCH" and CATEGORIES from frontpage
+- Consider to show the correct buttons in upper right corner, so that
+    - If user not logged in, only display "login"
+    - If user is logged in, show "Upload Video" and "Logout"
 
 - Clean up pages
     - Make sure to use '' instead og ""
