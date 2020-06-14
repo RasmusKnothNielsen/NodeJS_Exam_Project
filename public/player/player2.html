@@ -19,19 +19,21 @@
                 <textarea name="addcomment" id="addcomment" cols="30" rows="5"></textarea><br>
                 <button type="submit" onclick="onCommentSubmitted()">Add comment</button>
             </form>
+
             <p class="comments">Comments: <br><br></p>
+
         </div>
       </div>
     </div>
+
     <div class="col-4">Live Chat <br>
         <div id="history"></div>
         <form id="chat">
             <input type="text" id="thoughts" name="thoughts" />
         </form>
         <button id="btn-submit" onclick="onThoughtsSubmitted()">Post</button>
-
-        
     </div>
+
   </div> 
 
   <script>
@@ -58,17 +60,12 @@
                 socket.emit("Name change", { room, username, newUsername });
                 username = newUsername;
             }
-
         }
         else {
         // Send everything that is now blank
             if (thoughts != "") {
                 socket.emit("Send message", { thoughts, room, username });
             }
-            //socket.emit("connection successful", { currentVideo });
-
-            // REMOVE THIS AFTER DEBUGGING!
-            //socket.emit("I'm thinking about this", { thoughts, room, username });
         }
     }
 
