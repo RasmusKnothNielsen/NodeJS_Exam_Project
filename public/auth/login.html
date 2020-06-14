@@ -32,10 +32,10 @@
   const pathVariable = window.location.href.split("?")[1]
   // User tried to comment without being logged in
   if (pathVariable == 'error=notloggedincomment') {
-    sweetAlert('Login before you can comment!')
+    sweetAlert('Login to comment')
   }
   // User tried to access upload page without being logged in
   else if (pathVariable == 'error=notloggedinupload') {
-    sweetAlert('Login before you can upload videos!')
+    sweetAlert('Login to upload video')
   }
 </script>

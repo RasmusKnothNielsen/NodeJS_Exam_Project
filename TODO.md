@@ -1,14 +1,14 @@
 - Get Auth to work                  (DONE)        
 - Add sockets at the chatpage       (DONE)
-- Add chatpage
-    - Maybe find a way to chat with other people that watch the same video?     (DONE)
-    - Add a input field in the bottom of the chat page                          (DONE)
+- Add chatpage                      (DONE)
+    - Maybe find a way to chat with other people that watch the same video?                 (DONE)
+    - Add a input field in the bottom of the chat page                                      (DONE)
     - When users access video page, emit that they join the chat, anon if not logged in     (DONE)
-    - When pressing enter or send button, emit to socket                        (DONE)
+    - When pressing enter or send button, emit to socket                                    (DONE)
     - Make sure that chat messages dont keep on going down under the chatwindow, only allowing 22 lines of text (DONE)
-    - Implement auto scroll down when new messages is in.                       (DONE)
-- Add chatpages for each video                                                  (DONE)
-- Let the user join several rooms, by using more panels (faner)                 (DONE)
+    - Implement auto scroll down when new messages is in.                                   (DONE)
+- Add chatpages for each video                                                              (DONE)
+- Let the user join several rooms, by using more panels (faner)                             (DONE)
 
 - Allow users to change name from Anon          (DONE)
 
@@ -16,11 +16,11 @@
 
 IMPORTANT:
 - Implement proper error handling when
-    - User tries to comment when not logged in
+    - User tries to comment when not logged in      (DONE)
     - User provides wrong username / password
-    - User tries to upload without being logged in
+    - User tries to upload without being logged in  (DONE)
 
-- Make sure that if not logged in users try to go to /upload, they will be rejected
+- Make sure that if not logged in users try to go to /upload, they will be rejected (DONE)
 
 - Make sure that rate limiter is implemented    (DONE)
 - Change email text from user creation to reflect KeaTube   (DONE)
@@ -64,19 +64,19 @@ IMPORTANT:
 
 Change the name of the thumbnails to not just include the .png
 
-Try to implement AJAX on chat site, so that we can add comments without reloading the page.     (MAYBY DONE?)
+Try to implement AJAX on chat site, so that we can add comments without reloading the page.     (DONE)
 
 
 - Add login page                        (DONE)
-- Connect login page to rest of design
+- Connect login page to rest of design  (DONE)
 - Add signup page                       (DONE)
-- Connect signup page to rest of design
+- Connect signup page to rest of design (DONE)
 - Add resetpassword page                (DONE)
-- connect resetpassword page with rest of design
+- connect resetpassword page with rest of design    (DONE)
 
 - Add AJAX / Fetch to a site        (DONE)  Added it at upload video, for random video naming.
 
-- Consider to remove "SEARCH" and CATEGORIES from frontpage
+- Consider to remove "SEARCH" and CATEGORIES from frontpage                 (DONE)
 - Consider to show the correct buttons in upper right corner, so that
     - If user not logged in, only display "login"
     - If user is logged in, show "Upload Video" and "Logout"
@@ -107,6 +107,7 @@ Install
 
 - Set up PM, to auto start app and mysql server at restart/crash
 
+- Transfer project to Macbook Pro, and be sure that FFMPEG and TensorFlow works properly!
 
 Double Check HARD REQUIREMENTS:  
 Backend  
@@ -116,7 +117,7 @@ Backend
 
 Frontend  
 - Plain HTML    (DONE)
-- AJAX / Fetch
+- AJAX / Fetch  (DONE)
 - Sockets       (DONE)
 
 SOFT REQUIREMENTS:  
