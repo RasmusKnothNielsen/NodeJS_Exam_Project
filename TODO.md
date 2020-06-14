@@ -48,7 +48,7 @@
     
     - Implement that only the user who uploaded the video, can delete it
 
-- Remove like and dislike buttons?
+- Remove like and dislike buttons?  (DONE)
 
 Change the name of the thumbnails to not just include the .png
 
