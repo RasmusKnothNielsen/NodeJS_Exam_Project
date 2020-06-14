@@ -4,12 +4,13 @@
 // window.location.href = 'test'
 // This will redirect to localhost:8686/player/test
 
+//const { default: Swal } = require("sweetalert2");
+
+//const { default: Swal } = require("sweetalert2");
+
 // Retrieve the full URL and split it into an array
 const fullUrl = window.location.href;
 const videoId = fullUrl.substr(fullUrl.lastIndexOf('/') + 1);
-
-// Console log the pathvariable
-console.log(`Video ID ${videoId}`);
 
 // Call the backend and retrieve the json about this specific video
 $.get(`/videos/${videoId}`)
@@ -29,10 +30,8 @@ $.get(`/videos/${videoId}`)
 
 		$('.added').text('Added: ' + response.response.createdAt.substring(0, 10));
 
-		//TODO IMPLEMENT TAGS AGAIN
 		// Add tags to the page
 		const arrayOfTags = response.response.tags;
-		console.log("Here: " + arrayOfTags)
 		arrayOfTags.forEach(tag => {
 			$('.tags').append(tag.tag + ' ');
 		});
@@ -42,13 +41,12 @@ $.get(`/videos/${videoId}`)
 
 		// Add videoId to add comment field
 		document.getElementById('hiddenvideoId').value = `${videoId}`;
-		console.log("VideoID for Comment:", videoId)
 
 		// Add comments
 		const comments = response.response.comments;
 		comments.forEach(comment => {
 			commentDate = comment.createdAt
-			$('.comments').append('<div class="col-md-4 col-sm-6 col-xs-12">' + comment.userName + " - " + commentDate.substring(0,10) + ' - ' + commentDate.substring(11,20) +'<br>' + '-  ' + comment.comment + '<br><br></div>');
+			$('.comments').append('<div class="col-md-6 col-sm-6 col-xs-12">' + comment.userName + " - " + commentDate.substring(0,10) + ' - ' + commentDate.substring(11,20) +'<br>' + '-  ' + comment.comment + '<br><br></div>');
 		});
 	})
 	.catch((error) => {
@@ -60,3 +58,12 @@ $.get(`/videos/${videoId}`)
 // document.getElementById('video').src = '/' + videoID;
 // Reload the video to force the changes to update.
 // document.getElementById('videoplayer').load();
+
+function onCommentSubmitted() {
+	console.log("Checking if user is logged in")
+	console.log(req.session.authenticated)
+	if (req.session.authenticated != true) {
+		sweetAlert('User not logged in')
+	}
+	//await fetch('/comment')
+}

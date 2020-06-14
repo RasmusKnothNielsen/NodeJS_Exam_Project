@@ -45,6 +45,7 @@ const Knex = require('knex');
 const { Model } = require('objection');
 const knexConfig = require('../knexfile');
 const User = require('../models/User');
+const { default: Swal } = require('sweetalert2');
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 
@@ -150,9 +151,11 @@ router.post('/videos', upload.single('video'), async (req, res) => {
 // Adding comments to videos
 router.post('/comment', async (req, res) => {
 	let video;
-	const validatedUser = await validateUser(req).then( message => {
-		if (message == false) {
-			return res.send({response: 'Only logged in users can add comments'})
+
+	const validatedUser = await validateUser(req).then( validated => {
+		if (validated == false) {
+			return res.redirect('/login?error=notloggedin');
+			
 		}
 		else {
 			Video.query()
@@ -163,7 +166,7 @@ router.post('/comment', async (req, res) => {
 						userId: req.session.userid,
 						userName: req.session.username,
 						comment: req.body.addcomment
-					}).then(comment => {
+					}).then(() => {
 						res.redirect(`/player/${video.filename}`)
 					})
 				})

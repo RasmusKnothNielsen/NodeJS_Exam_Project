@@ -9,7 +9,7 @@ exports.seed = function(knex) {
           video_id: videos[0].id, 
           userId: 1, 
           userName: 'Admin',
-          comment: 'What a lovely bridge, you got there' 
+          comment: 'What a lovely bridge you got there' 
         },
         { 
           video_id: videos[1].id, 

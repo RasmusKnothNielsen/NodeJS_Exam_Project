@@ -26,3 +26,11 @@
       <button type="button" class="cancelbtn">Cancel</button>
     </div>
 </form> 
+
+<script>
+  // If we can do the next line, there is at least one pathvariable
+  const pathVariable = window.location.href.split("?")[1]
+  if (pathVariable == 'error=notloggedin') {
+    sweetAlert('Login for features such as uploading videos and commenting.')
+  }
+</script>

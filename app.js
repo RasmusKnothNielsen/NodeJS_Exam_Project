@@ -87,36 +87,6 @@ io.sockets.on('connection', (socket) => {
     });
 });
 
-/*
-// Creating listener for SocketIO
-io.on("connection", (socket) => {
-    console.log("Socket joined", socket.id);
-
-
-    socket.on("I'm thinking about this", ({ thoughts }) => {
-        // Sends out to all the clients
-        const today = new Date()
-        thoughts = today.getHours() + ":" + today.getMinutes() + " - " + thoughts
-
-        // Prevent XSS (Cross Site Scripting)
-        io.emit("Someone said", { thoughts: escape(thoughts) });
-
-        // Sends back to the specific socket
-        //socket.emit("Someone said", { thoughts });
-
-        // Sends to all clients, except the client that sends it
-        //socket.broadcast.emit("Someone said", { thoughts });
-
-
-    });
-
-
-    socket.on('disconnect', () => {
-        console.log("Socket left", socket.id)
-    });
-});
-*/
-
 // If undefined, start on 8686, else start on the provided portnumber
 const port = process.env.PORT ? process.env.PORT : 8686;
 
@@ -142,7 +112,12 @@ app.get('/player/:videoid', (req, res) => {
 
 // Upload videos
 app.get('/upload', (req, res) => {
-	return res.send(navbarPage + uploadPage + footerPage);
+    if (req.session.authenticated == true) {
+         return res.send(navbarPage + uploadPage + footerPage);
+    }
+    else {
+        return res.redirect('/login?error=notloggedin');
+    }
 });
 
 app.get('/login', (req, res) => {
