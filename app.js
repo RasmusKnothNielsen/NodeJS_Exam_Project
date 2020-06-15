@@ -5,12 +5,10 @@ const app = express();
 const server = http.createServer(app);
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 
 // Requiring sockets
 var io = require('./sockets').listen(server)
-
-// Import the fs to be able to interact with the filesystem
-const fs = require('fs');
 
 // Enable express to parse json
 app.use(express.json());
@@ -24,7 +22,7 @@ app.use(express.static('videos'));
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 15
+    max: 20
   });
   app.use('/login', limiter);
   app.use('/signup', limiter);
