@@ -1,3 +1,4 @@
+// Requiring libraries for server
 const express = require('express');
 const http = require('http');
 const app = express();
@@ -87,8 +88,17 @@ io.sockets.on('connection', (socket) => {
     });
 });
 
+// How to import routes and use them from another file
+// Import routes
+const videosRoute = require('./routes/videos');
+const authRoute = require('./routes/auth');
+const { ConstraintViolationError } = require('objection');
+// Setup routes
+app.use(videosRoute);
+app.use(authRoute);
+
 // If undefined, start on 8686, else start on the provided portnumber
-const port = process.env.PORT ? process.env.PORT : 8686;
+const PORT = process.env.PORT ? process.env.PORT : 8686;
 
 // Load the navbar, footer and frontpage
 // Using readFileSync, blocks the app from going on, before the file is read
@@ -102,28 +112,30 @@ const uploadPage = fs.readFileSync(__dirname + '/public/upload/upload.html', 'ut
 
 // Get Request for front page
 app.get('/', (req, res) => {
-	return res.send(navbarPage + frontpagePage + footerPage);
+	return res.send(renderPage('/public/frontpage/frontpage.html'));
 });
 
 // Get Request for the player page
 app.get('/player/:videoid', (req, res) => {
-	return res.send(navbarPage + playerPage + footerPage);
+	return res.send(renderPage('/public/player/player.html'));
 });
 
-// Upload videos
+// Upload page
 app.get('/upload', (req, res) => {
     if (req.session.authenticated == true) {
-         return res.send(navbarPage + uploadPage + footerPage);
+         return res.send(renderPage('/public/upload/upload.html'));
     }
     else {
         return res.redirect('/login?error=notloggedinupload');
     }
 });
 
+// Login page
 app.get('/login', (req, res) => {
     return res.send(renderPage('/public/auth/login.html'));
 })
 
+// Signup page
 app.get('/signup', (req, res) => {
     return res.send(renderPage('/public/auth/signup.html'));
 })
@@ -138,15 +150,6 @@ app.get('/passwordreset', (req, res) => {
     return res.send((renderPage('/public/resetpassword.html')));
 })
 
-// How to import routes and use them from another file
-// Import routes
-const videosRoute = require('./routes/videos');
-const authRoute = require('./routes/auth');
-const { ConstraintViolationError } = require('objection');
-// Setup routes
-app.use(videosRoute);
-app.use(authRoute);
-
 // Helperfunction to render the page using SSR (Server Side Rendering)
 function renderPage(path) {
     let page = fs.readFileSync(__dirname + path, 'utf-8');
@@ -156,11 +159,11 @@ function renderPage(path) {
 
 /* Start server */
 
-server.listen(port, error => {
+server.listen(PORT, error => {
 	if (error) {
 		console.log(error.log);
 	}
-	console.log('The server has started on port', port);
+	console.log('The server has started on port', PORT);
 });
 
 

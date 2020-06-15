@@ -10,7 +10,7 @@ exports.up = function(knex) {
             table.string('username').unique().notNullable();
             table.string('password').notNullable();
             table.integer('age');
-            table.string('email').unique();
+            table.string('email');
             table.string('UUID').unique().notNullable();  // This is used to check what user is logged in, by setting the value in our cookie.
             // I chose this, so i don't have to use a username as identifier, which is too easy to "guess"
 

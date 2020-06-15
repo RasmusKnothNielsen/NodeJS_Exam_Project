@@ -17,7 +17,7 @@
 IMPORTANT:
 - Implement proper error handling when
     - User tries to comment when not logged in      (DONE)
-    - User provides wrong username / password
+    - User provides wrong username / password       (DONE)   
     - User tries to upload without being logged in  (DONE)
 
 - Make sure that if not logged in users try to go to /upload, they will be rejected (DONE)
@@ -33,8 +33,8 @@ IMPORTANT:
 - Add video info to Database instead of file    (DONE)
 - Implement Sweetalert pop ups
     - At upload video
-    - At user signup
-    - At user login
+    - At user signup                            (DONE)
+    - At user login                             (DONE)                             
     - At user logout
 
 - Create tables in database (DONE)

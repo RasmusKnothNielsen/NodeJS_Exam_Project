@@ -30,12 +30,41 @@
 <script>
   // If we can do the next line, there is at least one pathvariable
   const pathVariable = window.location.href.split("?")[1]
-  // User tried to comment without being logged in
-  if (pathVariable == 'error=notloggedincomment') {
-    sweetAlert('Login to comment')
-  }
-  // User tried to access upload page without being logged in
-  else if (pathVariable == 'error=notloggedinupload') {
-    sweetAlert('Login to upload video')
+
+  switch(pathVariable) {
+    // User tried to comment without being logged in
+    case 'error=notloggedincomment':
+      sweetAlert(
+        'Error',
+        'Login to comment'
+        );
+      break;
+    
+    // User tried to access upload page without being logged in
+    case 'error=notloggedinupload':
+      sweetAlert(
+        'Error',
+        'Login to upload video'
+        );
+      break;
+
+    // User provided username and password that does not match
+    case 'error=usernameandpasswordnotmatch':
+      sweetAlert(
+        'Error',
+        'Username and password does not match'
+        );
+      break;
+
+    // User signed up successfully
+    case 'status=signedup':
+      sweetAlert(
+        'Success',
+        'Please log in with your new credentials'
+      );
+      break;
+    
+    default:
+      break;
   }
 </script>

@@ -48,14 +48,11 @@ router.post('/login', async (req, res) => {
             // Add the users UUID, to show that we are logged in with the specific user
             req.session.uuid = userFound[0].uuid;
 
-            // TODO REMOVE, ONLY FOR TESTING
-            console.log(req.session)
-
-            return res.redirect('/');
+            return res.redirect('/?status=loggedin');
         }
         // If the user provided the wrong password
         else {
-            return res.send({response: "Username and password does not match"})
+            return res.redirect('/login?error=usernameandpasswordnotmatch')
         }
 
     }
@@ -131,7 +128,8 @@ router.post('/signup', async (req, res) => {
                         });
                     }
 
-                    return res.status(200).redirect('/login');
+                    // User successfully signed up
+                    return res.status(200).redirect('/login?status=signedup');
                 }
 
             } catch (error) {
@@ -250,7 +248,7 @@ router.get('/logout', (req, res) => {
     req.session.authenticated = false;
     req.session.user = null;
     req.session.uuid = null;
-    return res.status(200).redirect('/');
+    return res.status(200).redirect('/?status=loggedout');
 });
 
 
