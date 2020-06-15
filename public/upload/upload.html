@@ -3,11 +3,13 @@
         <h2 class="container text-center">Upload</h2>
         <div class="form-row" id="user-input-center">
           <div class="col-md-2">
+
             <form action="/videos" method="POST" enctype="multipart/form-data" name="videoupload" onsubmit="return validateForm()"> <br> <br>
               <input name="title" id="title" placeholder="title" /> <br> <br>
               <input type="button" onclick="getRandomTitle()" value="Generate Random Title"></input> <br> <br>
               <textarea name="description" placeholder="description" rows="6"></textarea>
               <label for="category">Category:</label>
+
               <select id="category" name="category">
                 <option value="none" selected disabled hidden>Choose here</option>
                 <option value="autosvehicles">Autos & Vehicles</option>
@@ -25,6 +27,7 @@
                 <option value="sciencetechnology">Science & Technology</option>
                 <option value="sports">Sports</option>
               </select> <br><br>
+              
               <label for="tags">Tags:</label>
               <input type="text" id="tags" name="tags" placeholder="Separate with space"><br><br>
               <input type="file" name="video" accept="video/*" onchange="handleFileUpload(this.files)" /> <br>

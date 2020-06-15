@@ -23,6 +23,24 @@ const transporter = nodemailer.createTransport({
     }
   });
 
+function mailSender(email, subject, message) {
+    // Send email to to notify that user has been created.t
+    const mailOptions = {
+        from: mailCredentials.user,
+        to: email,
+        subject: subject,
+        text: message
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+}
+
 /* Auth Routes*/
 
 // Route for when users try to login
@@ -99,21 +117,8 @@ router.post('/signup', async (req, res) => {
                             UUID: uniqueId,
                         });
 
-                        // Send email to to notify that user has been created.t
-                        const mailOptions = {
-                            from: mailCredentials.user,
-                            to: email,
-                            subject: 'User created on KeaTube',
-                            text: `A user has just been created at KeaTube using this email. \nIf you did not create this user, please notify us!\n\nKind regards\n KeaTube`
-                          };
-                          
-                          transporter.sendMail(mailOptions, function(error, info){
-                            if (error) {
-                              console.log(error);
-                            } else {
-                              console.log('Email sent: ' + info.response);
-                            }
-                          });
+                        mailSender(email, 'User created on KeaTube', 
+                        `A user has just been created at KeaTube using this email. \nIf you did not create this user, please notify us!\n\nKind regards\n KeaTube`)
                         
                     }
                     // If email is not provided
@@ -158,21 +163,11 @@ router.post('/resetpassword', async (req, res) => {
                         const userToken = uuidv4();
                         resetPasswordDict[userFound[0].username] = userToken
 
-                        // send mail with defined transport object
-                        const mailOptions = {
-                            from: mailCredentials.user,
-                            to: email,
-                            subject: 'KeaTube - Resetting mail',
-                            text: `A password reset of your user has been requested.\n\nGo to http://localhost:8686/passwordReset?username=${username}&token=${userToken} to reset password.\n\nIf you did not do this, you can ignore this mail.\n\nKind regards\nKeaTube`
-                          };
-                          
-                          transporter.sendMail(mailOptions, function(error, info){
-                            if (error) {
-                              console.log(error);
-                            } else {
-                              console.log('Email sent: ' + info.response);
-                            }
-                          });
+                        mailSender(email, 'KeaTube - Resetting mail',
+                        `A password reset of your user has been requested.\n\n` +
+                        `Go to http://localhost:8686/passwordReset?username=${username}&token=${userToken} to reset password.\n\n` +
+                        `If you did not do this, you can ignore this mail.\n\nKind regards\nKeaTube`
+                        )
 
                         return res.redirect('/login?status=resetmailsent');
                     } 
