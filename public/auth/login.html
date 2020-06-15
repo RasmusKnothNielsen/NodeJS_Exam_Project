@@ -29,42 +29,43 @@
 
 <script>
   // If we can do the next line, there is at least one pathvariable
-  const pathVariable = window.location.href.split("?")[1]
+const pathVariable = window.location.href.split("?")[1]
 
-  switch(pathVariable) {
-    // User tried to comment without being logged in
-    case 'error=notloggedincomment':
-      sweetAlert(
-        'Error',
-        'Login to comment'
-        );
-      break;
-    
-    // User tried to access upload page without being logged in
-    case 'error=notloggedinupload':
-      sweetAlert(
-        'Error',
-        'Login to upload video'
-        );
-      break;
-
-    // User provided username and password that does not match
-    case 'error=usernameandpasswordnotmatch':
-      sweetAlert(
-        'Error',
-        'Username and password does not match'
-        );
-      break;
-
-    // User signed up successfully
-    case 'status=signedup':
-      sweetAlert(
-        'Success',
-        'Please log in with your new credentials'
+switch(pathVariable) {
+  // User tried to comment without being logged in
+  case 'error=notloggedincomment':
+      console.log("not logged in")
+    sweetAlert(
+      'Error',
+      'Login to comment'
       );
-      break;
-    
-    default:
-      break;
-  }
+    break;
+  
+  // User tried to access upload page without being logged in
+  case 'error=notloggedinupload':
+    sweetAlert(
+      'Error',
+      'Login to upload video'
+      );
+    break;
+
+  // User provided username and password that does not match
+  case 'error=usernameandpasswordnotmatch':
+    sweetAlert(
+      'Error',
+      'Username and password does not match'
+      );
+    break;
+
+  // User signed up successfully
+  case 'status=signedup':
+    sweetAlert(
+      'Success',
+      'Please log in with your new credentials'
+    );
+    break;
+  
+  default:
+    break;
+}
 </script>

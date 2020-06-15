@@ -37,55 +37,56 @@
   </div> 
 
   <script>
-    const socket = io.connect();
-    // Get the current room name from splitting the URL by slashes and use the videoID
-    const room = window.location.href.split("/")[4];
-    let username = "Anon";
-    socket.emit('join room', room, username)
-    function onThoughtsSubmitted() {
+        // Handling client side sockets
+        const socket = io.connect();
+        // Get the current room name from splitting the URL by slashes and use the videoID
+        const room = window.location.href.split("/")[4];
+        let username = "Anon";
+        socket.emit('join room', room, username)
+        function onThoughtsSubmitted() {
 
-        const thoughts = $('#thoughts').val();
-        $('#thoughts').val("");
+            const thoughts = $('#thoughts').val();
+            $('#thoughts').val("");
 
-        // Support for commands
-        if (thoughts.slice(0,1) == "/") {
+            // Support for commands
+            if (thoughts.slice(0,1) == "/") {
 
-            // Let users change name by writing "/name $desired_username"
-            if (thoughts.slice(0,5) == "/nick") {
-                newUsername = thoughts.split(" ")[1];
-                console.log("Nickname is now:", username);
-                socket.emit("Name change", { room, username, newUsername });
-                username = newUsername;
+                // Let users change name by writing "/name $desired_username"
+                if (thoughts.slice(0,5) == "/nick") {
+                    newUsername = thoughts.split(" ")[1];
+                    console.log("Nickname is now:", username);
+                    socket.emit("Name change", { room, username, newUsername });
+                    username = newUsername;
+                }
+            }
+            else {
+            // Send everything that is now blank
+                if (thoughts != "") {
+                    socket.emit("Send message", { thoughts, room, username });
+                }
             }
         }
-        else {
-        // Send everything that is now blank
-            if (thoughts != "") {
-                socket.emit("Send message", { thoughts, room, username });
-            }
+
+        socket.on("Someone joined", (data) => {
+            $('#history').prepend(`<div>${data}</div>`);
+        });
+
+        socket.on("Someone changed name", (data) => {
+            $('#history').prepend(`<div>${data}</div>`);
+        }); 
+
+        socket.on("Someone said", (time, data, username) => {
+            $('#history').prepend(`<div>${time} - ${username}: ${data.thoughts}</div>`);
+        });
+
+        socket.on("Someone left", (data) => {
+            $('#history').prepend(`<div>${data}</div>`);
+        });
+
+        function onLeavePage() {
+            console.log("USER LEFT PAGE")
+            socket.emit("disconnecting",  ({room, username}));
         }
-    }
-
-    socket.on("Someone joined", (data) => {
-        $('#history').prepend(`<div>${data}</div>`);
-    });
-
-    socket.on("Someone changed name", (data) => {
-        $('#history').prepend(`<div>${data}</div>`);
-    }); 
-
-    socket.on("Someone said", (time, data, username) => {
-        $('#history').prepend(`<div>${time} - ${username}: ${data.thoughts}</div>`);
-    });
-
-    socket.on("Someone left", (data) => {
-        $('#history').prepend(`<div>${data}</div>`);
-    });
-
-    function onLeavePage() {
-        console.log("USER LEFT PAGE")
-        socket.emit("disconnecting",  ({room, username}));
-    }
     </script>
 
 <body onunload="onLeavePage()">

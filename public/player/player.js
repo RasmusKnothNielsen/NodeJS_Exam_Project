@@ -44,8 +44,4 @@ $.get(`/videos/${videoId}`)
 		$('.title').text('Could not find video');
 	});
 
-// Change the source of the video to the provided path variable
-// document.getElementById('video').src = '/' + videoID;
-// Reload the video to force the changes to update.
-// document.getElementById('videoplayer').load();
 

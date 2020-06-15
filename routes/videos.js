@@ -12,11 +12,10 @@ const Knex = require('knex');
 const { Model } = require('objection');
 const knexConfig = require('../knexfile');
 const User = require('../models/User');
-const { default: Swal } = require('sweetalert2');
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 
-// Used for creating tags from thumbnails
+// Used for creating tags and thumbnails
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegPath);
@@ -45,8 +44,6 @@ const storage = multer.diskStorage({
 	},
 });
 const upload = multer({ storage: storage });
-
-const videosPerPage = 10;
 
 // Return all the videos as a list
 router.get('/videos', (req, res) => {
@@ -162,13 +159,10 @@ router.post('/comment', async (req, res) => {
 
 async function validateUser(req) {
 	// Check if session is present:
-	console.log("REQ.SESSION:", req.session)
 	if (req.session.authenticated == true) {
 		// Check if userid and UUID is in the DB
-		console.log("AUTHENTICATED IS EQUAL TO TRUE")
 		const userFound = await User.query().select().where({'uuid': req.session.uuid}).limit(1)
 			.then( user => {
-				console.log("QUERY DB DONE")
 				if (user.length > 0) {
 					return true
 				}
@@ -207,7 +201,7 @@ function validateUserUpload(title, description, category) {
 
 // Helper function for generating tags with tensorflow
 async function generateTags(fileName) {
-	let results = [];
+
 	// Create tags via Tensorflow mobilenet image recognition
 	const pathToImg = path.join(process.cwd() + '/public/images/thumbnails/' + fileName + '.png');
 	const readImage = path => {
@@ -237,7 +231,7 @@ async function generateTags(fileName) {
 				Tag.query().insert({
 					videoId: video.id,
 					tag: prediction.className
-				}).then(tag => {
+				}).then(() => {
 					console.log("Prediction added:", prediction);
 				});
 			})

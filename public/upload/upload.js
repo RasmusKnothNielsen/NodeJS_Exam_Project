@@ -19,11 +19,9 @@ function validateForm() {
 	if (title.length < 8 || title.length > 64) {
 		if (title.length < 8) {
 			sweetAlert('Title is too short!');
-			//alert('Title is too short!');
 		}
 		else if (title.length > 64) {
 			sweetAlert('Title is too long!');
-			//alert('Title is too long!');
 		}
 		return false;
 	}
@@ -34,19 +32,10 @@ function validateForm() {
 
 	if (category.value == 'none') {
 		sweetAlert('You have to pick a category!');
-		//alert('You have to pick a category!');
 		return false;
 	}
 
-
-	swal({ title: "WOW!",
- 		text: "Message!",
-		type: "success"
-	}).on('click', 'something', {
-   		if (okay) {
-    		return true && fileValid;
-  		}
-	});
+    return true && fileValid;
 
 
 }

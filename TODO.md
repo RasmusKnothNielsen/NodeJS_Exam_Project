@@ -12,10 +12,10 @@
 
 - Allow users to change name from Anon          (DONE)
 
-- Refactor all listener events to an external file and call it through it
+- Refactor all listener events to an external file and call it through it                   (DONE)
 
 IMPORTANT:
-- Implement proper error handling when
+- Implement proper error handling when              (DONE)
     - User tries to comment when not logged in      (DONE)
     - User provides wrong username / password       (DONE)   
     - User tries to upload without being logged in  (DONE)

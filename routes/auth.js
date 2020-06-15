@@ -5,11 +5,9 @@ const fs = require('fs');
 const nodemailer = require('nodemailer')
 const mailCredentials = require('../config/mailCredentials');
 const { v4: uuidv4 } = require('uuid');
-const { swal } = require('sweetalert2');
 
 // Hashing Passwords
 const bcrypt = require('bcrypt');
-const { default: Swal } = require('sweetalert2');
 const saltRounds = 10;
 
 // Dictionary that can contain username and tokens for password reset
@@ -25,6 +23,9 @@ const transporter = nodemailer.createTransport({
     }
   });
 
+/* Auth Routes*/
+
+// Route for when users try to login
 router.post('/login', async (req, res) => {
 
     const { username, password } = await req.body;
@@ -58,6 +59,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Route for when users try to signup
 router.post('/signup', async (req, res) => {
 
     const { username, password, passwordRepeat, email } = await req.body;
@@ -186,7 +188,7 @@ router.post('/resetpassword', async (req, res) => {
 
 });
 
-// route for resetting password
+// Route for resetting password
 router.post('/passwordreset', async (req, res) => {
 
     // Capture the information from the form
@@ -221,6 +223,7 @@ router.post('/passwordreset', async (req, res) => {
     }
 });
 
+// Route for when users log out
 router.get('/logout', (req, res) => {
     req.session.authenticated = false;
     req.session.user = null;

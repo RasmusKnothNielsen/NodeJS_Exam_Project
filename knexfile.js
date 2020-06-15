@@ -1,4 +1,4 @@
-// Update with your config settings.
+// Setting up knex to connect to our DB
 
 const credentials = require("./config/mysqlCredentials.js")
 const { knexSnakeCaseMappers } = require('objection');

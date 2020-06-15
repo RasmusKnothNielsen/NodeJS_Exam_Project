@@ -11,7 +11,7 @@ class Comment extends Model {
     static get relationMappings() {
         return {
             video: {
-                relation: Model.BelongsToOneRelation,
+                relation: Model.BelongsToOneRelation, // Use BelongsToOneRelation because comment has the foreign key, else use HasOneRelation
                 modelClass: Video,
                 join: {
                     from: 'comments.videoId',
