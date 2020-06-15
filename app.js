@@ -97,7 +97,7 @@ app.get('/resetpassword', (req, res) => {
 
 // landing page for resetting password after getting the email with the token in it
 app.get('/passwordreset', (req, res) => {
-    return res.send((renderPage('/public/resetpassword.html', req)));
+    return res.send((renderPage('/public/auth/resetpassword.html', req)));
 })
 
 // Helperfunction to render the page using SSR (Server Side Rendering)
