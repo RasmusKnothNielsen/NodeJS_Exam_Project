@@ -163,7 +163,7 @@ router.post('/resetpassword', async (req, res) => {
                             from: mailCredentials.user,
                             to: email,
                             subject: 'KeaTube - Resetting mail',
-                            text: `A password reset of your user has been requested.\n\nGo to http://localhost:8686/passwordReset?user=${username}&token=${userToken} to reset password.\n\nIf you did not do this, you can ignore this mail.\n\nKind regards\nKeaTube`
+                            text: `A password reset of your user has been requested.\n\nGo to http://localhost:8686/passwordReset?username=${username}&token=${userToken} to reset password.\n\nIf you did not do this, you can ignore this mail.\n\nKind regards\nKeaTube`
                           };
                           
                           transporter.sendMail(mailOptions, function(error, info){
@@ -205,7 +205,6 @@ router.post('/passwordreset', async (req, res) => {
 
             // if they do, hash password and save it to the database
             const hashedPassword = await bcrypt.hash(password, saltRounds);
-            console.log("New hashed password = ", hashedPassword);
             const userUpdated = await User.query().where('username', '=', username).update({ password: hashedPassword});
 
             // Remember to remove the entry in our dictionary

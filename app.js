@@ -24,7 +24,7 @@ app.use(express.static('videos'));
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 8 // limit each IP to 100 requests per windowMs
+    max: 15
   });
   app.use('/login', limiter);
   app.use('/signup', limiter);
