@@ -7,6 +7,11 @@ const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 
+// Requiring routes
+const videosRoute = require('./routes/videos');
+const authRoute = require('./routes/auth');
+const { ConstraintViolationError } = require('objection');
+
 // Requiring sockets
 var io = require('./sockets').listen(server)
 
@@ -40,11 +45,6 @@ app.use(session({
     //cookie: { secure: true }
   }));
 
-// How to import routes and use them from another file
-// Import routes
-const videosRoute = require('./routes/videos');
-const authRoute = require('./routes/auth');
-const { ConstraintViolationError } = require('objection');
 // Setup routes
 app.use(videosRoute);
 app.use(authRoute);
@@ -100,15 +100,15 @@ app.get('/passwordreset', (req, res) => {
 
 // Helperfunction to render the page using SSR (Server Side Rendering)
 function renderPage(path, req) {
+    // Load main page
     let page = fs.readFileSync(__dirname + path, 'utf-8');
-    let result;
+    // Determine if user is logged in or not
     if (req.session.authenticated) {
-        result = navbarPageLoggedIn + page + footerPage;
+        return navbarPageLoggedIn + page + footerPage;
     }
     else {
-        result = navbarPage + page + footerPage;
+        return navbarPage + page + footerPage;
     }
-    return result;
 }
 
 /* Start server */
