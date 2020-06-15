@@ -2,11 +2,15 @@
 let fileValid = false;
 
 async function getRandomTitle() {
-	const response = await fetch("https://random-word-api.herokuapp.com/word?number=2&swear=0");
-    await response.json().then(response => {
-        document.forms.videoupload.title.value = response[0] + ' ' + response[1];
-	});
-            
+	await fetch("https://random-word-api.herokuapp.com/word?number=2&swear=0")
+	.then( res => {
+		res.json().then( response => {
+			document.forms.videoupload.title.value = response[0] + " " + response[1];
+		})
+		.catch((error) => console.log(error));
+
+	})
+	.catch((error) => console.log(error));  
 }
 
 
