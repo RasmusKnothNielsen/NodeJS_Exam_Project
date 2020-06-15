@@ -1,14 +1,13 @@
 
 let fileValid = false;
 
-async function getRandomTitle() {
-	await fetch("https://random-word-api.herokuapp.com/word?number=2&swear=0")
+function getRandomTitle() {
+	fetch("https://random-word-api.herokuapp.com/word?number=2&swear=0")
 	.then( res => {
 		res.json().then( response => {
 			document.forms.videoupload.title.value = response[0] + " " + response[1];
 		})
 		.catch((error) => console.log(error));
-
 	})
 	.catch((error) => console.log(error));  
 }
