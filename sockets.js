@@ -20,8 +20,8 @@ module.exports.listen = app => {
             socket.join(room);
             console.log('Room wants to be join:', room);
             console.log('By socket:', socket.id)
-            socket.emit('Someone joined', 'You just joined the chat!');
-            socket.broadcast.emit('Someone joined', `${username} just joined the chat!`);
+            //socket.emit('Someone joined', 'You just joined the chat!');
+            io.sockets.in(room).emit('Someone joined', `${username} just joined the chat!`);
             //io.sockets.in(room).emit('Someone joined', `${username} just joined the chat!`);
         })
 

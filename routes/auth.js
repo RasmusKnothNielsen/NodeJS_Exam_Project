@@ -210,7 +210,7 @@ router.post('/passwordreset', async (req, res) => {
 
             // Remember to remove the entry in our dictionary
             delete resetPasswordDict[username];
-            return res.status(200).redirect('/login');
+            return res.status(200).redirect('/login?status=passwordresetsuccess');
         }
         // Passwords does not match
         else {

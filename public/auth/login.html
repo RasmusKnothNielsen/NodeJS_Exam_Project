@@ -32,83 +32,97 @@
 const pathVariable = window.location.href.split("?")[1]
 
 switch(pathVariable) {
-    // User tried to comment without being logged in
+
+  // User tried to comment without being logged in
     case 'error=notloggedincomment':
-        console.log("not logged in")
+      console.log("not logged in")
       sweetAlert(
         'Error',
         'Login to comment'
         );
       break;
     
-    // User tried to access upload page without being logged in
-    case 'error=notloggedinupload':
-      sweetAlert(
-        'Error',
-        'Login to upload video'
-        );
-      break;
-
-    // User provided username and password that does not match
-    case 'error=usernameandpasswordnotmatch':
-      sweetAlert(
-        'Error',
-        'Username and password does not match'
-        );
-      break;
-
-    // User troed to login with invalid username
-    case 'error=userdoesnotexist':
-      sweetAlert(
-        'Error',
-        'User does not exist'
-      )
-      break;
-
-    // User tried to create user with too short password
-    case 'error=passwordnotok':
-      sweetAlert(
-        'Error',
-        'Password must be longer than 7 digits/characters'
-      )
-      break;
-
-    // User tried to create a user with a username that already exists
-    case 'error=userexists':
-      sweetAlert(
-        'Error',
-        'User already exists'
-      )
-
-    // User tried to create a user and provided passwords that does not match
-    case 'error=passwordnomatch':
-      sweetAlert(
-        'Error',
-        'Passwords does not match'
-      )
-    
-    // User tried to create a user, but missed some fields
-    case 'error=missingfields':
-      sweetAlert(
-        'Error',
-        'Missing information: username, password, passwordRepeat'
-      )
-
-    // User signed up successfully
-    case 'status=signedup':
-      sweetAlert(
-        'Success',
-        'Please log in with your new credentials'
+  // User tried to access upload page without being logged in
+  case 'error=notloggedinupload':
+    sweetAlert(
+      'Error',
+      'Login to upload video'
       );
-      break;
+    break;
+
+  // User provided username and password that does not match
+  case 'error=usernameandpasswordnotmatch':
+    sweetAlert(
+      'Error',
+      'Username and password does not match'
+      );
+    break;
+
+  // User troed to login with invalid username
+  case 'error=userdoesnotexist':
+    sweetAlert(
+      'Error',
+      'User does not exist'
+      );
+    break;
+
+  // User tried to create user with too short password
+  case 'error=passwordnotok':
+    sweetAlert(
+      'Error',
+      'Password must be longer than 7 digits/characters'
+      );
+    break;
+
+  // User tried to create a user with a username that already exists
+  case 'error=userexists':
+    sweetAlert(
+      'Error',
+      'User already exists'
+      );
+    break;
+
+  // User tried to create a user and provided passwords that does not match
+  case 'error=passwordnomatch':
+    sweetAlert(
+      'Error',
+      'Passwords does not match'
+      );
+    break;
     
-      // User asked for a reset mail
-    case 'status=resetmailsent':
-      sweetAlert(
-        'Success',
-        'Mail sent. Please follow the directions provided in it'
-      )
-    default:
-      break;
+  // User tried to create a user, but missed some fields
+  case 'error=missingfields':
+    sweetAlert(
+      'Error',
+      'Missing information: username, password, passwordRepeat'
+      );
+    break;
+
+  // User signed up successfully
+  case 'status=signedup':
+    sweetAlert(
+      'Success',
+      'Please log in with your new credentials'
+      );
+    break;
+    
+  // User asked for a reset mail
+  case 'status=resetmailsent':
+    sweetAlert(
+      'Success',
+      'Mail sent. Please follow the directions provided in it'
+      );
+    break;
+
+  // User requested a password change
+  case 'status=passwordresetsuccess':
+    sweetAlert(
+      'Success',
+      'Password successfully changed, log in with new credentials'
+      );
+    break;
+
+  default:
+    break;
 }
 </script>
