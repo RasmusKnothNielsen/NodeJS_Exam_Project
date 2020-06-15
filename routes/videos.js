@@ -84,7 +84,7 @@ router.post('/videos', upload.single('video'), async (req, res) => {
 	console.log("USERID:", userid);
 	const validatedUser = await validateUser(req).then( message => {
 		if (message == false) {
-			return res.redirect('/login?error=notloggedinupload')
+			return res.redirect('/login?status=notloggedinupload')
 		}
 		else {
 			// Server side validation
@@ -137,7 +137,7 @@ router.post('/comment', async (req, res) => {
 	const validatedUser = await validateUser(req).then( validated => {
 
 		if (validated == false) {
-			return res.redirect('/login?error=notloggedincomment');
+			return res.redirect('/login?status=notloggedincomment');
 			
 		}
 		else {
@@ -157,6 +157,7 @@ router.post('/comment', async (req, res) => {
 	})
 });
 
+// Checking if user exists in database
 async function validateUser(req) {
 	// Check if session is present:
 	if (req.session.authenticated == true) {
@@ -174,6 +175,7 @@ async function validateUser(req) {
 	
 }
 
+// Checking if the provided video information is acceptable
 function validateUserUpload(title, description, category) {
 
 	let errors = [];
@@ -213,19 +215,11 @@ async function generateTags(fileName) {
 		const image = readImage(path);
 		const mobilenetModel = await mobilenet.load();
 		const predictions = await mobilenetModel.classify(image);
-		console.log('Classification Results:', predictions);
-		/*
-		// Get the newly added video and add the generated tags to it
-		let video = videos.find(video => video.fileName === fileName);
-		predictions.forEach(prediction => {
-			video['tags'].push(prediction.className);
-		});
-		*/
+
 		// Get the id of the video
 		Video.query()
 		.then(videos => {
 			let video = videos.find(video => video.filename === fileName);
-			console.log("Found video:", video);
 			// Add the tags to the tags table with the povided videoID
 			predictions.forEach(prediction => {
 				Tag.query().insert({

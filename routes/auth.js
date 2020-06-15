@@ -49,13 +49,13 @@ router.post('/login', async (req, res) => {
         }
         // If the user provided the wrong password
         else {
-            return res.redirect('/login?error=usernameandpasswordnotmatch')
+            return res.redirect('/login?status=usernameandpasswordnotmatch')
         }
 
     }
     // If the user provided a username that does not exist in the DB
     else {
-        res.redirect('/login?error=userdoesnotexist');
+        res.redirect('/login?status=userdoesnotexist');
     }
 });
 
@@ -69,7 +69,7 @@ router.post('/signup', async (req, res) => {
     // If the user provided a username, a password and the two passwords are identical.
     if (username && password && isPasswordTheSame) {
         if (password.length < 8) {
-            return res.redirect('/login?error=passwordnotok');
+            return res.redirect('/login?status=passwordnotok');
         } else {
 
             try {
@@ -77,7 +77,7 @@ router.post('/signup', async (req, res) => {
                 const userFound = await User.query().select().where({'username': username}).limit(1);
                 // Do if else check if it exists and give response
                 if (userFound.length > 0) {
-                    return res.redirect('/login?error=userexists');
+                    return res.redirect('/login?status=userexists');
                 } else {
                     
                     // Get the role number of USER
@@ -104,7 +104,7 @@ router.post('/signup', async (req, res) => {
                             from: mailCredentials.user,
                             to: email,
                             subject: 'User created on KeaTube',
-                            text: `A user has just been created at KeaTube using this email. If you did not create this user, please notify us!`
+                            text: `A user has just been created at KeaTube using this email. \nIf you did not create this user, please notify us!\n\nKind regards\n KeaTube`
                           };
                           
                           transporter.sendMail(mailOptions, function(error, info){
@@ -135,9 +135,9 @@ router.post('/signup', async (req, res) => {
             }
         }
     } else if (password && passwordRepeat && !isPasswordTheSame) { 
-        return res.redirect('/login?error=passwordnomatch');
+        return res.redirect('/login?status=passwordnomatch');
     } else {
-        return res.redirect('/login?error=missingfields');
+        return res.redirect('/login?status=missingfields');
     }
 });
 
@@ -163,7 +163,7 @@ router.post('/resetpassword', async (req, res) => {
                             from: mailCredentials.user,
                             to: email,
                             subject: 'KeaTube - Resetting mail',
-                            text: `Use the following token to reset your password: ${userToken}\nGo to /passwordReset for further information.`
+                            text: `A password reset of your user has been requested.\n\nGo to http://localhost:8686/passwordReset?user=${username}&token=${userToken} to reset password.\n\nIf you did not do this, you can ignore this mail.\n\nKind regards\nKeaTube`
                           };
                           
                           transporter.sendMail(mailOptions, function(error, info){

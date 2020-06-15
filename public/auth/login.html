@@ -28,13 +28,26 @@
 </form> 
 
 <script>
-  // If we can do the next line, there is at least one pathvariable
-const pathVariable = window.location.href.split("?")[1]
+  
+  // Function to get pathvariables from link
+  function getQueryVariable(variable) {
+        let query = window.location.search.substring(1);
+        let vars = query.split('&');
+        for (let i=0;i<vars.length;i++) {
+                let pair = vars[i].split('=');
+                if(pair[0] == variable) {
+                    return pair[1];
+                  }
+        }
+        return(false);
+  }
 
-switch(pathVariable) {
+const status = getQueryVariable('status');
+
+switch(status) {
 
   // User tried to comment without being logged in
-    case 'error=notloggedincomment':
+    case 'notloggedincomment':
       console.log("not logged in")
       sweetAlert(
         'Error',
@@ -43,7 +56,7 @@ switch(pathVariable) {
       break;
     
   // User tried to access upload page without being logged in
-  case 'error=notloggedinupload':
+  case 'notloggedinupload':
     sweetAlert(
       'Error',
       'Login to upload video'
@@ -51,7 +64,7 @@ switch(pathVariable) {
     break;
 
   // User provided username and password that does not match
-  case 'error=usernameandpasswordnotmatch':
+  case 'usernameandpasswordnotmatch':
     sweetAlert(
       'Error',
       'Username and password does not match'
@@ -59,7 +72,7 @@ switch(pathVariable) {
     break;
 
   // User troed to login with invalid username
-  case 'error=userdoesnotexist':
+  case 'userdoesnotexist':
     sweetAlert(
       'Error',
       'User does not exist'
@@ -67,7 +80,7 @@ switch(pathVariable) {
     break;
 
   // User tried to create user with too short password
-  case 'error=passwordnotok':
+  case 'passwordnotok':
     sweetAlert(
       'Error',
       'Password must be longer than 7 digits/characters'
@@ -75,7 +88,7 @@ switch(pathVariable) {
     break;
 
   // User tried to create a user with a username that already exists
-  case 'error=userexists':
+  case 'userexists':
     sweetAlert(
       'Error',
       'User already exists'
@@ -83,7 +96,7 @@ switch(pathVariable) {
     break;
 
   // User tried to create a user and provided passwords that does not match
-  case 'error=passwordnomatch':
+  case 'passwordnomatch':
     sweetAlert(
       'Error',
       'Passwords does not match'
@@ -91,7 +104,7 @@ switch(pathVariable) {
     break;
     
   // User tried to create a user, but missed some fields
-  case 'error=missingfields':
+  case 'missingfields':
     sweetAlert(
       'Error',
       'Missing information: username, password, passwordRepeat'
@@ -99,7 +112,7 @@ switch(pathVariable) {
     break;
 
   // User signed up successfully
-  case 'status=signedup':
+  case 'signedup':
     sweetAlert(
       'Success',
       'Please log in with your new credentials'
@@ -107,7 +120,7 @@ switch(pathVariable) {
     break;
     
   // User asked for a reset mail
-  case 'status=resetmailsent':
+  case 'resetmailsent':
     sweetAlert(
       'Success',
       'Mail sent. Please follow the directions provided in it'
@@ -115,7 +128,7 @@ switch(pathVariable) {
     break;
 
   // User requested a password change
-  case 'status=passwordresetsuccess':
+  case 'passwordresetsuccess':
     sweetAlert(
       'Success',
       'Password successfully changed, log in with new credentials'
