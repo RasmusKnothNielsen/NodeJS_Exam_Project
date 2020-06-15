@@ -34,8 +34,6 @@ app.use(session({
     genid: (req) => {   // Generate an ID for our session, that has to be unique
         // This will only be run, if the client does not have provided a sessionID already
         // OR if the client sends a sessionID that the server does not recognize. Can happen if the server restarts/crashes.
-        console.log('Inside the session middleware')
-        console.log(req.sessionID);
         return uuidv4();
     },
     secret: require('./config/mysqlCredentials').sessionSecret,

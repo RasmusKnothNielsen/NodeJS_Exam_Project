@@ -48,7 +48,7 @@ const upload = multer({ storage: storage });
 // Return all the videos as a list
 router.get('/videos', (req, res) => {
 	// Query the video objects and fill them with the relevant tags and comments
-	Video.query().eager('[tags, comments]').then(videos => {
+	Video.query().withGraphFetched('[tags, comments]').then(videos => {
         return res.send({response: videos});
     })
 });
@@ -62,7 +62,7 @@ router.get('/videos/:videoId', async (req, res) => {
 			video['views'] += 1;
 		})
 	await Video.query().patchAndFetchById(video['id'], { views: video['views']})
-		.eager('[tags, comments]')
+		.withGraphFetched('[tags, comments]')
 		.then(video => {
 			return res.send({response: video})
 		})
