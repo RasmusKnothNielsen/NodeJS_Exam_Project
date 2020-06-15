@@ -26,10 +26,6 @@ const transporter = nodemailer.createTransport({
   });
 
 router.post('/login', async (req, res) => {
-    // 1. retrieve the login details and validate
-    // 2. check for a user match in the database
-    // 3. bcrypt compare
-    // 4. sessions
 
     const { username, password } = await req.body;
 
@@ -41,7 +37,7 @@ router.post('/login', async (req, res) => {
         // If the user provided the correct username and password
         if(validated) {
             console.log("User validated")
-            // TODO Trying this as authentication
+            // Authentication
             req.session.authenticated = true;
             req.session.username = userFound[0].username;
             req.session.userid = userFound[0].id
@@ -141,8 +137,6 @@ router.post('/signup', async (req, res) => {
     } else {
         return res.status(404).send({response : "Missing fields: username, password, passwordRepeat" });
     }
-
-    return res.send({response: [username, password, passwordRepeat]})
 });
 
 // Route for initiating password reset and send email
@@ -157,23 +151,6 @@ router.post('/resetpassword', async (req, res) => {
                     
                     // If the mail provided is the one associated with the user
                     if (email != undefined && email == userFound[0].email) {
-
-                        /* The following code is uncommented if you don't want to use your own email addres
-                            for sending out mails /*
-                        /*
-                        let testAccount = await nodemailer.createTestAccount();
-
-                        // create reusable transporter object using the default SMTP transport
-                        let transporter = nodemailer.createTransport({
-                            host: "smtp.ethereal.email",
-                            port: 587,
-                            secure: false, // true for 465, false for other ports
-                            auth: {
-                            user: testAccount.user, // generated ethereal user
-                            pass: testAccount.pass, // generated ethereal password
-                            },
-                        });
-                        */
 
                         // Define a token for the user to log in with:
                         const userToken = uuidv4();
@@ -242,7 +219,7 @@ router.post('/passwordreset', async (req, res) => {
     else {
         return res.status(401).send({response: "Invalid token entered"});
     }
-})
+});
 
 router.get('/logout', (req, res) => {
     req.session.authenticated = false;
@@ -250,8 +227,6 @@ router.get('/logout', (req, res) => {
     req.session.uuid = null;
     return res.status(200).redirect('/?status=loggedout');
 });
-
-
 
 // Export the route
 module.exports = router;

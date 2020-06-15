@@ -1,11 +1,20 @@
-// Accessing the Router from the express library
+// Requiring libraries
 const router = require('express').Router();
-
 const crypto = require('crypto');
-
 const fs = require('fs');
-
 const path = require('path');
+
+// Setting up objection
+const Video = require('../models/Video');
+const Comment = require('../models/Comment');
+const Tag = require('../models/Tag');
+const Knex = require('knex');
+const { Model } = require('objection');
+const knexConfig = require('../knexfile');
+const User = require('../models/User');
+const { default: Swal } = require('sweetalert2');
+const knex = Knex(knexConfig.development);
+Model.knex(knex);
 
 // Used for creating tags from thumbnails
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
@@ -18,6 +27,7 @@ const PNG = require('png-js');
 
 const multer = require('multer');
 
+// Use multer to save videos to disk
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, 'videos');
@@ -34,35 +44,12 @@ const storage = multer.diskStorage({
 		}
 	},
 });
-
 const upload = multer({ storage: storage });
-
-// TRYING OUT OBJECTION
-const Video = require('../models/Video');
-const Comment = require('../models/Comment');
-const Tag = require('../models/Tag');
-const Knex = require('knex');
-const { Model } = require('objection');
-const knexConfig = require('../knexfile');
-const User = require('../models/User');
-const { default: Swal } = require('sweetalert2');
-const knex = Knex(knexConfig.development);
-Model.knex(knex);
 
 const videosPerPage = 10;
 
 // Return all the videos as a list
 router.get('/videos', (req, res) => {
-	/*
-	const page = Number(req.query.page) ? Number(req.query.page) : 1;
-	const start = (page - 1) * videosPerPage;
-	const end = start + videosPerPage;
-	// Number of videos per page and current page number?
-	*/
-
-	// return res.send({ response: videos.slice(start, end) });
-	//return res.send({ response: videos });
-
 	// Query the video objects and fill them with the relevant tags and comments
 	Video.query().eager('[tags, comments]').then(videos => {
         return res.send({response: videos});
@@ -150,9 +137,8 @@ router.post('/videos', upload.single('video'), async (req, res) => {
 
 // Adding comments to videos
 router.post('/comment', async (req, res) => {
-	let video;
-
 	const validatedUser = await validateUser(req).then( validated => {
+
 		if (validated == false) {
 			return res.redirect('/login?error=notloggedincomment');
 			
@@ -160,7 +146,7 @@ router.post('/comment', async (req, res) => {
 		else {
 			Video.query()
 				.then(videos => {
-					video = videos.find(video => video.filename === req.body.hiddenVideoId);
+					let video = videos.find(video => video.filename === req.body.hiddenVideoId);
 					Comment.query().insert({
 						videoId: video.id,
 						userId: req.session.userid,

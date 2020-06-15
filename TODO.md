@@ -35,7 +35,7 @@ IMPORTANT:
     - At upload video
     - At user signup                            (DONE)
     - At user login                             (DONE)                             
-    - At user logout
+    - At user logout                            (DONE)
 
 - Create tables in database (DONE)
     - Videos        (DONE)
@@ -77,9 +77,9 @@ Try to implement AJAX on chat site, so that we can add comments without reloadin
 - Add AJAX / Fetch to a site        (DONE)  Added it at upload video, for random video naming.
 
 - Consider to remove "SEARCH" and CATEGORIES from frontpage                 (DONE)
-- Consider to show the correct buttons in upper right corner, so that
-    - If user not logged in, only display "login"
-    - If user is logged in, show "Upload Video" and "Logout"
+- Consider to show the correct buttons in upper right corner, so that       (DONE)
+    - If user not logged in, only display "login"                           (DONE)
+    - If user is logged in, show "Upload Video" and "Logout"                (DONE)
 
 - Clean up pages
     - Make sure to use '' instead og ""
