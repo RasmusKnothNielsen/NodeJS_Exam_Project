@@ -174,11 +174,11 @@ router.post('/resetpassword', async (req, res) => {
                             }
                           });
 
-                        return res.send({response: `Sent email to ${email}`})
+                        return res.redirect('/login?status=resetmailsent');
                     } 
                     // If the email is wrong
                     else {
-                        return res.send({response: "User or email is not correct"})
+                        return res.send({response: "User or email is not correct"});
                     }
                 
                 // If the user does not exist

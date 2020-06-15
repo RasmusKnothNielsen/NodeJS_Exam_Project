@@ -102,6 +102,12 @@ switch(pathVariable) {
       );
       break;
     
+      // User asked for a reset mail
+    case 'status=resetmailsent':
+      sweetAlert(
+        'Success',
+        'Mail sent. Please follow the directions provided in it'
+      )
     default:
       break;
 }
