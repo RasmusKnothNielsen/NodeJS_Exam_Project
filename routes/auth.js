@@ -55,7 +55,7 @@ router.post('/login', async (req, res) => {
     }
     // If the user provided a username that does not exist in the DB
     else {
-        res.send({response: "User does not exist"});
+        res.redirect('/login?error=userdoesnotexist');
     }
 });
 
@@ -69,7 +69,7 @@ router.post('/signup', async (req, res) => {
     // If the user provided a username, a password and the two passwords are identical.
     if (username && password && isPasswordTheSame) {
         if (password.length < 8) {
-            return res.status(400).send({response: "Password does not fulfull the requirements"});
+            return res.redirect('/login?error=passwordnotok');
         } else {
 
             try {
@@ -77,7 +77,7 @@ router.post('/signup', async (req, res) => {
                 const userFound = await User.query().select().where({'username': username}).limit(1);
                 // Do if else check if it exists and give response
                 if (userFound.length > 0) {
-                    return res.status(400).send({ response: "User already exists"})
+                    return res.redirect('/login?error=userexists');
                 } else {
                     
                     // Get the role number of USER
@@ -135,9 +135,9 @@ router.post('/signup', async (req, res) => {
             }
         }
     } else if (password && passwordRepeat && !isPasswordTheSame) { 
-        return res.status(400).send({response : "Password does not match"});
+        return res.redirect('/login?error=passwordnomatch');
     } else {
-        return res.status(404).send({response : "Missing fields: username, password, passwordRepeat" });
+        return res.redirect('/login?error=missingfields');
     }
 });
 
