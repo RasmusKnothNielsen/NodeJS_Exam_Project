@@ -6,7 +6,10 @@ Repo containing work done with the NodeJS Exam Project done at Computer Science,
 
 ## How to run this?
 
+Git clone the repo
 
+Install dependencies
+> $ npm install 
 
 ## FAQ
 
