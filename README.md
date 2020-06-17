@@ -11,6 +11,10 @@ Git clone the repo
 Install dependencies
 > $ npm install 
 
+Install FFMPEG locally.  
+If you have a mac and have homebrew installed, simply do the following
+> $ brew install ffmpeg
+
 ## FAQ
 
 Here is a list of known issues and how to fix them:
