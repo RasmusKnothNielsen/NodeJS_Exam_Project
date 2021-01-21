@@ -47,7 +47,7 @@
     "nodemailer": "^6.4.8",
     "objection": "^2.1.5",
     "png-js": "^1.0.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "sweetalert2": "^9.14.0",
     "uuid": "^8.1.0"
   }
