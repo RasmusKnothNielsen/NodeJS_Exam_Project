@@ -44,7 +44,7 @@
     "knex": "^0.21.1",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
-    "nodemailer": "^6.4.8",
+    "nodemailer": "^6.4.16",
     "objection": "^2.1.5",
     "png-js": "^1.0.0",
     "socket.io": "^2.3.0",
